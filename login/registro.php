@@ -11,14 +11,14 @@ $error_general = '';
 if (isset($_POST['registrar'])) {
     // Validar campos vacíos
     if (empty($_POST["usuario"])) {
-        $error_usuario = 'Por favor ingrese su usuario';
+        $error_usuario = 'Por favor ingrese un nombre de usuario';
     }
     
     if (empty($_POST["pass"])) {
-        $error_pass = 'Por favor ingrese su contraseña';
+        $error_pass = 'Por favor ingrese una contraseña';
     }
     
-    // Si no hay errores de campos vacíos, validar credenciales
+    // Si no hay errores de campos vacíos, validar que el usuario no exista
     if (empty($error_usuario) && empty($error_pass)) {
         $usuario = mysqli_real_escape_string($connect, trim($_POST["usuario"]));
         $pass = $_POST["pass"];
@@ -30,20 +30,27 @@ if (isset($_POST['registrar'])) {
         $consulta = mysqli_stmt_get_result($stmt);
         
         if (mysqli_num_rows($consulta) > 0) {
-            $fila = mysqli_fetch_assoc($consulta); 
+            $error_general = 'El nombre de usuario ya existe. Por favor, elige otro.';
+        } else {
+            // Hash de la contraseña
+            $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
             
-            if (password_verify($pass, $fila['contraseña'])) {
+            // Insertar el nuevo usuario en la base de datos
+            $sql = "INSERT INTO usuario (usuario, contraseña) VALUES (?, ?)";
+            $stmt = mysqli_prepare($connect, $sql);
+            mysqli_stmt_bind_param($stmt, "ss", $usuario, $hashed_password);
+            
+            if (mysqli_stmt_execute($stmt)) {
+                // Registro exitoso, redirigir al usuario a la página principal
                 $_SESSION['usuario'] = $usuario;
                 header("Location: ../main.php");
-                exit(); 
+                exit();
             } else {
-                $error_general = 'Usuario o contraseña incorrectos';
+                $error_general = 'Error al registrar el usuario. Por favor, inténtalo de nuevo.';
             }
-        } else {
-            $error_general = 'Usuario o contraseña incorrectos';
+            
+            mysqli_stmt_close($stmt);
         }
-        
-        mysqli_stmt_close($stmt);
     }
 }
 ?>
@@ -52,7 +59,7 @@ if (isset($_POST['registrar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Moderno</title>
+    <title>Registro de Usuario</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -60,8 +67,8 @@ if (isset($_POST['registrar'])) {
 
         <div class="container-side shapedividers_com-3746">
             <div class="container-side-text">
-                <h2>Sistema de Gestión de Fallas PC</h2>
-                <p>Accede para reportar o consultar fallas.</p>
+                <h2>Crea una cuenta en nuestro Sistema</h2>
+                <p>Regístrate para acceder a todas las funcionalidades.</p>
             </div>
         </div>
 
@@ -75,8 +82,8 @@ if (isset($_POST['registrar'])) {
                     <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </div>
-            <h2>Bienvenido</h2>
-            <p>Inicia sesión para acceder al sistema.</p>
+            <h2>Regístrate</h2>
+            <p>Crea una cuenta para acceder al sistema.</p>
         </div>
 
         <div class="form">
@@ -86,7 +93,7 @@ if (isset($_POST['registrar'])) {
             
             <div class="form-group">
                 <label>Nombre de Usuario</label>
-                <input type="text" name="usuario" placeholder="Ingrese su usuario" 
+                <input type="text" name="usuario" placeholder="Ingrese un nombre de usuario" 
                     value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>"
                     class="<?php echo !empty($error_usuario) ? 'error' : ''; ?>">
                 <?php if(!empty($error_usuario)): ?>
@@ -96,7 +103,7 @@ if (isset($_POST['registrar'])) {
             
             <div class="form-group">
                 <label>Contraseña</label>
-                <input type="password" name="pass" placeholder="Ingrese su contraseña"
+                <input type="password" name="pass" placeholder="Ingrese una contraseña"
                     class="<?php echo !empty($error_pass) ? 'error' : ''; ?>">
                 <?php if(!empty($error_pass)): ?>
                     <span class="error-message"><?php echo $error_pass; ?></span>
@@ -104,10 +111,10 @@ if (isset($_POST['registrar'])) {
             </div>
 
             <div class="form-group ">
-                <span>¿No tienes una cuenta? <a class="link" href="registro.php">Regístrate Aquí</a></span>
+                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
             </div>
 
-            <button type="submit" name="registrar" class="btn btn-primary ">Ingresar</button>
+            <button type="submit" name="registrar" class="btn btn-primary">Registrar</button>
         </form>
         </div>
     

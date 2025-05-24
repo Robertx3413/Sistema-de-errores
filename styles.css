@@ -16,7 +16,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 /* ================ ESTRUCTURA GENERAL ================ */
@@ -42,6 +42,20 @@ body {
     background-size: cover;
 }
 
+
+.link{
+    display: inline-flex;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.link:hover{
+    color: var(--secondary-color);
+    text-decoration: underline;
+    transform: translateY(-2px);
+}
 
 .container-side{
     display: flex;
@@ -182,6 +196,7 @@ input, textarea, select {
     border-radius: var(--border-radius);
     font-size: 1rem;
     transition: var(--transition);
+    font-weight: bolder;
 }
 
 input:focus, textarea:focus, select:focus {
