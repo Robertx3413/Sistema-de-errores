@@ -53,38 +53,59 @@ if (isset($_POST['registrar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Moderno</title>
-    <link rel="stylesheet" href="\sistema\styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-    <div class="container">
-    <form method="post" class="form-container">
-        <h2>LOGIN</h2>
-        
-        <?php if(!empty($error_general)): ?>
-            <div class="alert alert-danger"><?php echo $error_general; ?></div>
-        <?php endif; ?>
-        
-        <div class="form-group">
-            <label>Usuario</label>
-            <input type="text" name="usuario" placeholder="Ingrese su usuario" 
-                   value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>"
-                   class="<?php echo !empty($error_usuario) ? 'error' : ''; ?>">
-            <?php if(!empty($error_usuario)): ?>
-                <span class="error-message"><?php echo $error_usuario; ?></span>
-            <?php endif; ?>
-        </div>
-        
-        <div class="form-group">
-            <label>Contraseña</label>
-            <input type="password" name="pass" placeholder="Ingrese su contraseña"
-                   class="<?php echo !empty($error_pass) ? 'error' : ''; ?>">
-            <?php if(!empty($error_pass)): ?>
-                <span class="error-message"><?php echo $error_pass; ?></span>
-            <?php endif; ?>
+    <div class="container-login">
+
+        <div class="container-side shapedividers_com-3746">
+            <div class="container-side-text">
+                <h2>Sistema de Gestión de Fallas PC</h2>
+                <p>Accede para reportar o consultar fallas.</p>
+            </div>
         </div>
 
-        <button type="submit" name="registrar" class="btn">Ingresar</button>
-    </form>
+        
+        <form method="post" class="form-container">
+            
+        <div class="form-header">
+                <div class="logo-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+            <h2>Bienvenido</h2>
+            <p>Inicia sesión para acceder al sistema.</p>
+        </div>
+
+        <div class="form">
+                <?php if(!empty($error_general)): ?>
+                    <div class="alert alert-danger"><?php echo $error_general; ?></div>
+                <?php endif; ?>
+            
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" name="usuario" placeholder="Ingrese su usuario" 
+                    value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>"
+                    class="<?php echo !empty($error_usuario) ? 'error' : ''; ?>">
+                <?php if(!empty($error_usuario)): ?>
+                    <span class="error-message"><?php echo $error_usuario; ?></span>
+                <?php endif; ?>
+            </div>
+            
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="pass" placeholder="Ingrese su contraseña"
+                    class="<?php echo !empty($error_pass) ? 'error' : ''; ?>">
+                <?php if(!empty($error_pass)): ?>
+                    <span class="error-message"><?php echo $error_pass; ?></span>
+                <?php endif; ?>
+            </div>
+
+            <button type="submit" name="registrar" class="btn btn-primary a">Ingresar</button>
+        </form>
+        </div>
     
         <!-- Footer con información de creadores -->
         
