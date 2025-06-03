@@ -63,7 +63,7 @@ mysqli_stmt_close($stmt);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Registro de Error</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="\sistema\styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -110,20 +110,70 @@ mysqli_stmt_close($stmt);
                 </div>
                 
                 <div class="btn-group">
-                    <button type="submit" name="registrar" class="btn btn-primary">
+                    <button type="button"  class="btn btn-primary btn-modal">
                         <i class="fas fa-save"></i> Guardar Cambios
                     </button>
                     <a href="main.php" class="btn btn-outline">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>
+                <!-- modal editar -->
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="btn-close"><i class="fas fa-times"></i></span>
+                            <h4>Confirmar Edición</h4>
+                        </div>
+                        <div class="modal-txt">
+                            <p>¿Estás seguro de que deseas editar este registro?</p>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="submit" name="registrar" class="btn btn-danger">Guardar Cambios   </button>
+                            <button type="button" class="btn-off btn btn-warning">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
+
             </form>
         </div>
         
     </div>
 
     <script>
-        // Validación del lado del cliente
+    const btnsModal = document.querySelectorAll(".btn-modal");
+    const modals = document.querySelectorAll(".modal");
+    const btnsClose = document.querySelectorAll(".btn-close");
+    const btnsOff = document.querySelectorAll(".btn-off");
+
+    btnsModal.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.add("show");
+        });
+    });
+
+    btnsClose.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.remove("show");
+        });
+    });
+
+    btnsOff.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.remove("show");
+        });
+    });
+
+
+
+    document.addEventListener('click', function(event) {
+        modals.forEach((modal) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    });
+
         document.querySelector('form').addEventListener('submit', function(e) {
             const title = document.getElementById('errorTitle').value.trim();
             const description = document.getElementById('errorDescription').value.trim();
@@ -144,3 +194,6 @@ mysqli_stmt_close($stmt);
     </script>
 </body>
 </html>
+
+
+                                        

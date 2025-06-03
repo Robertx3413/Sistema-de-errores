@@ -54,6 +54,7 @@ if (isset($_POST['registrar'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -73,7 +74,7 @@ if (isset($_POST['registrar'])) {
         </div>
 
         
-        <form method="post" class="form-container">
+        <form method="post" class="form-container" id="form">
             
         <div class="form-header">
                 <div class="logo-header">
@@ -90,10 +91,14 @@ if (isset($_POST['registrar'])) {
                 <?php if(!empty($error_general)): ?>
                     <div class="alert alert-danger"><?php echo $error_general; ?></div>
                 <?php endif; ?>
+
+
+                <div class="error alert-danger" id="error-general"></div>
+
             
             <div class="form-group">
                 <label>Nombre de Usuario</label>
-                <input type="text" name="usuario" placeholder="Ingrese un nombre de usuario" 
+                <input type="text" name="usuario" id="user" placeholder="Ingrese un nombre de usuario" 
                     value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>"
                     class="<?php echo !empty($error_usuario) ? 'error' : ''; ?>">
                 <?php if(!empty($error_usuario)): ?>
@@ -103,7 +108,7 @@ if (isset($_POST['registrar'])) {
             
             <div class="form-group">
                 <label>Contraseña</label>
-                <input type="password" name="pass" placeholder="Ingrese una contraseña"
+                <input type="password" name="pass" id="pass" placeholder="Ingrese una contraseña"
                     class="<?php echo !empty($error_pass) ? 'error' : ''; ?>">
                 <?php if(!empty($error_pass)): ?>
                     <span class="error-message"><?php echo $error_pass; ?></span>
@@ -122,4 +127,38 @@ if (isset($_POST['registrar'])) {
         
     </div>
 </body>
+<script>
+
+    const user = document.getElementById('user');
+    const pass = document.getElementById('pass');
+    const form = document.querySelector('form');
+    const errorGeneral = document.getElementById('error-general');
+
+    form.addEventListener('submit', (e) => {
+        let messages = [];
+
+        if (user.value === '' || user.value == null) {
+            messages.push('El usuario es requerido');
+        } else if (!/^[a-zA-Z0-9]+$/.test(user.value)) {
+            messages.push('El usuario solo puede contener letras y números');
+        }
+
+        if (pass.value === '' || pass.value == null) {
+            messages.push('La contraseña es requerida');
+        }
+        else if (pass.value.length < 4) {
+            messages.push('La contraseña debe tener al menos 4 caracteres');
+        }
+        
+        if (messages.length > 0) {
+            e.preventDefault();
+            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
+            errorGeneral.style.display = 'block'; // Asegura que el mensaje se muestre
+        } else {
+            errorGeneral.style.display = 'none'; // Oculta el mensaje si no hay errores
+        }
+    });
+
+
+</script>
 </html>

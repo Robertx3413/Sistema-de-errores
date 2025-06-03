@@ -131,23 +131,21 @@ if (isset($_POST['registrar'])) {
 
         if (user.value === '' || user.value == null) {
             messages.push('El usuario es requerido');
+
         } else if (!/^[a-zA-Z0-9]+$/.test(user.value)) {
             messages.push('El usuario solo puede contener letras y números');
         }
 
         if (pass.value === '' || pass.value == null) {
             messages.push('La contraseña es requerida');
-        } else if (pass.value.length < 8) {
-            messages.push('La contraseña debe tener al menos 8 caracteres');
+        } else if (pass.value.length < 4) {
+            messages.push('La contraseña debe tener al menos 4 caracteres');
         }
 
-        if (messages.length > 0) {
+       if (messages.length > 0) {
             e.preventDefault();
-
-            if (messages.length < 2) {
-                errorGeneral.innerText = messages.join(', ');
-                errorGeneral.style.display = 'block'; // Asegura que el mensaje se muestre
-            }
+            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
+            errorGeneral.style.display = 'block'; // Asegura que el mensaje se muestre
         } else {
             errorGeneral.style.display = 'none'; // Oculta el mensaje si no hay errores
         }

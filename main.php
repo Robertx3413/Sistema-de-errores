@@ -53,9 +53,7 @@ if (!$usuario) {
                                 <td><?= htmlspecialchars($row['id']) ?></td>
                                 <td><?= htmlspecialchars($row['titulo_error']) ?></td>
                                 <td>
-                                    <span class="badge 
-                                        <?= strtolower($row['categoria']) === 'crítico' ? 'badge-danger' : 
-                                           (strtolower($row['categoria']) === 'importante' ? 'badge-warning' : 'badge-primary') ?>">
+                                    <span class="badge badge-primary">
                                         <?= htmlspecialchars($row['categoria']) ?>
                                     </span>
                                 </td>
@@ -68,13 +66,37 @@ if (!$usuario) {
                                         <a href="editar.php?editarid=<?= $row['id'] ?>" class="btn btn-warning action-btn">
                                             <i class="fas fa-edit"></i> Editar
                                         </a>
-                                        <a href="eliminar.php?eliminarid=<?= $row['id'] ?>" class="btn btn-danger action-btn" 
-                                           onclick="return confirm('¿Estás seguro de eliminar este registro?');">
+                                        <button type="button" class="btn btn-danger action-btn btn-modal">
                                             <i class="fas fa-trash"></i> Eliminar
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
+
+
+                            <!-- modal eliminar -->
+
+                                                <div class="modal">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <span class="btn-close"><i class="fas fa-times"></i></span>
+                                                            <h4>Confirmar Eliminación</h4>
+                                                        </div>
+                                                        <div class="modal-txt">
+                                                            
+                                                            <p>¿Estás seguro de que deseas eliminar este registro?</p>
+                                                        </div>
+                                                        <div class="modal-actions">
+                                                            <a href="eliminar.php?eliminarid=<?= $row['id'] ?>" class="btn btn-danger">Eliminar</a href="">
+                                                            <button type="button" class="btn-off btn btn-warning">Cancelar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
                         <?php endwhile; ?>
                     </tbody>
                 </table>
@@ -86,18 +108,47 @@ if (!$usuario) {
                 </div>
             <?php endif; ?>
         </div>
+
+
         
+        
+
+
     </div>
 
     <script>
-        // Confirmación antes de eliminar
-        document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', (e) => {
-                if (!confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-                    e.preventDefault();
-                }
-            });
+    const btnsModal = document.querySelectorAll(".btn-modal");
+    const modals = document.querySelectorAll(".modal");
+    const btnsClose = document.querySelectorAll(".btn-close");
+    const btnsOff = document.querySelectorAll(".btn-off");
+
+    btnsModal.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.add("show");
         });
+    });
+
+    btnsClose.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.remove("show");
+        });
+    });
+
+    btnsOff.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.remove("show");
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        modals.forEach((modal) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    });
+
     </script>
+
 </body>
 </html>
