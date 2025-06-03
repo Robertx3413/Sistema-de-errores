@@ -7,20 +7,19 @@ if (!$usuario) {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador de Registros</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <div class="container">
         <header class="header">
-            <h1><i class="fas fa-table"></i> Registros de Errores</h1>
+            <h1><i class="fas fa-table"></i> Dashboard</h1>
             <div class="btn-group">
                 <a href="formulario.php" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Agregar
@@ -38,6 +37,8 @@ if (!$usuario) {
                 </ul>
             </nav>
         </header>
+
+        <h2>PCs Reparadas</h2>
 
         <div class="table-container">
             <?php
@@ -136,46 +137,8 @@ if (!$usuario) {
             <?php endif; ?>
         </div>
 
-
-        
-        
-
-
+    
     </div>
-
-    <script>
-    const btnsModal = document.querySelectorAll(".btn-modal");
-    const modals = document.querySelectorAll(".modal");
-    const btnsClose = document.querySelectorAll(".btn-close");
-    const btnsOff = document.querySelectorAll(".btn-off");
-
-    btnsModal.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.add("show");
-        });
-    });
-
-    btnsClose.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
-        });
-    });
-
-    btnsOff.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
-        });
-    });
-
-    document.addEventListener('click', function(event) {
-        modals.forEach((modal) => {
-            if (event.target === modal) {
-                modal.classList.remove('show');
-            }
-        });
-    });
-
-    </script>
 
 </body>
 </html>
