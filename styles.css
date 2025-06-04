@@ -54,6 +54,8 @@ body {
 
 
 
+
+
 .bg-login{
     background-image: url('fondo.webp');
     background-size: cover;
@@ -154,6 +156,9 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
     left: 0;
     bottom: 0;
     width: 250px; /* Ajusta el ancho según sea necesario */
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
     background-color: var(--light-color); /* Fondo claro */
     box-shadow: var(--box-shadow); /* Sombra suave */
     padding: 0.5rem 1rem;
@@ -174,10 +179,12 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
 }
 
 .nav a {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 0.75rem 1rem;
     color: var(--dark-color);
     text-decoration: none;
+    gap: 10px; /* Espacio entre icono y texto */
     border-radius: var(--border-radius);
     transition: var(--transition);
 }
@@ -186,6 +193,7 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
     background-color: rgba(0, 0, 0, 0.05); /* Ligero fondo al pasar el ratón */
     color: var(--primary-color);
 }
+
 
  
 
@@ -218,6 +226,7 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
 }
 
 .form-container {
+    height: 100%;
     background: #ffffff;
     width: 60%;
     padding: 2rem;
@@ -234,12 +243,101 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
 
 
 .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form h2 {
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+
+label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 13px 17px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    font-weight: bolder;
+    margin-bottom: 0.75rem;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 145, 226, 0.559);
+    outline: none;
+}
+
+input.error {
+    border-color: #e74c3c;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.form-header-custom {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.form-header-custom h2{
+    color: var(--primary-color);
+    font-size: 3.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-header-custom p{
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    
+}
+
+.form-container-custom {
+    background: #ffffff;
+    width: 60%;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    margin: 0 auto;
+}
+
+
+.form-container-custom:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+.form-custom {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust minmax value as needed */
     gap: 1.5rem; /* Space between grid items */
 }
 
-.form h2 {
+.form-custom h2 {
     margin-bottom: 2rem; /* Increased for better spacing */
     text-align: center; /* Center the heading for better aesthetics */
     color: var(--primary-color); /* Consistent color scheme */
@@ -709,6 +807,7 @@ tr:hover {
         display: flex;
         justify-content: space-around;
         align-items: center;
+        text-align: center;
     }
 
     .nav li {
@@ -716,13 +815,15 @@ tr:hover {
     }
 
     .nav a {
-        padding: 0.5rem;
-        text-align: center;
+        padding: 0.2rem;
         border-radius: 0;
-    }
-
-    .nav .logo {
-        display: none;
+        display: flex;
+        flex-direction: row;
+        align-items:center;
+        justify-content: center;
+        gap: 5px;
+        text-align: center; /* Cambiado a center */
+        width: 100%;        /* Asegura que ocupe todo el espacio del li */
     }
 }
 
