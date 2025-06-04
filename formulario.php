@@ -11,11 +11,21 @@ if (!$usuario) {
 if(isset($_POST['registrar'])) {
     $titulo = mysqli_real_escape_string($connect, $_POST['errorTitle']);
     $descripcion = mysqli_real_escape_string($connect, $_POST['errorDescription']);
+    $propietario = mysqli_real_escape_string($connect, $_POST['Owner']);
     $categoria = mysqli_real_escape_string($connect, $_POST['errorCategory']);
+    $tecnico = mysqli_real_escape_string($connect, $_POST['Technical']);
+    $departamento = mysqli_real_escape_string($connect, $_POST['Department']);
+    $registroLugar = mysqli_real_escape_string($connect, $_POST['registro']); 
+    $severidad = mysqli_real_escape_string($connect, $_POST['severidad']);
+    $fecha = mysqli_real_escape_string($connect, $_POST['date']); 
 
-    $sql = "INSERT INTO registro (titulo_error, descripcion, categoria, fecha) VALUES (?, ?, ?, CURRENT_TIMESTAMP())";
+    
+
+    
+
+    $sql = "INSERT INTO registro (titulo_error, descripcion, propietario, categoria, tecnico, departamento,gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ? )";
     $stmt = mysqli_prepare($connect, $sql);
-    mysqli_stmt_bind_param($stmt, "sss", $titulo, $descripcion, $categoria);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $titulo, $descripcion,$propietario, $categoria, $tecnico, $departamento, $severidad, $fecha);
     
     if(mysqli_stmt_execute($stmt)) {
         header('Location: main.php');
@@ -27,7 +37,7 @@ if(isset($_POST['registrar'])) {
     mysqli_stmt_close($stmt);
 }
 ?>
-
+                     
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -86,28 +96,28 @@ if(isset($_POST['registrar'])) {
                 </div>
                 
                 <div class="form-group">
-                    <label for="nombreUsuarioEquipo" class="form-label">Nombre del Usuario del Equipo</label>
-                    <input type="text" id="nombreUsuarioEquipo" name="nombreUsuarioEquipo" class="form-input" placeholder="Nombre del usuario">
+                    <label for="Owner" class="form-label">Nombre del Usuario del Equipo</label>
+                    <input type="text" id="Owner" name="Owner" class="form-input" placeholder="Nombre del usuario">
                 </div>
 
                 <div class="form-group">
-                    <label for="tecnicoReparacion" class="form-label">Técnico a Cargo de la Reparación</label>
-                    <input type="text" id="tecnicoReparacion" name="tecnicoReparacion" class="form-input" placeholder="Nombre del técnico" value="<?php echo isset($usuario) ? htmlspecialchars($usuario) : ''; ?>">
+                    <label for="Technical" class="form-label">Técnico a Cargo de la Reparación</label>
+                    <input type="text" id="Technical" name="Technical" class="form-input" placeholder="Nombre del técnico" value="<?php echo isset($usuario) ? htmlspecialchars($usuario) : ''; ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="departamento" class="form-label">Departamento</label>
-                    <input type="text" id="departamento" name="departamento" class="form-input" placeholder="Departamento">
+                    <label for="Department" class="form-label">Departamento</label>
+                    <input type="text" id="Department" name="Department" class="form-input" placeholder="Departamento">
                 </div>
 
                 <div class="form-group">
-                    <label for="fechaReparacion" class="form-label">Fecha de Reparación</label>
-                    <input type="date" id="fechaReparacion" name="fechaReparacion" class="form-input">
+                    <label for="date" class="form-label">Fecha de Reparación</label>
+                    <input type="date" id="date" name="date" class="form-input">
                 </div>
 
                 <div class="form-group">
                     <label for="lugarRegistro" class="form-label">Lugar de Registro</label>
-                    <input type="text" id="lugarRegistro" name="lugarRegistro" class="form-input" placeholder="Lugar donde se realiza el registro">
+                    <input type="text" id="registro" name="registro" class="form-input" placeholder="Lugar donde se realiza el registro">
                 </div>
 
                 <div class="form-group">
