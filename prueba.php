@@ -15,7 +15,7 @@ if (!$id) {
 date_default_timezone_set('America/Lima');
 
 // Consulta preparada para seguridad
-$sql = "SELECT `id`, `titulo_error`, `descripcion`, `categoria`, `fecha` FROM `registro` WHERE id = ?";
+$sql = "SELECT * FROM `registro` WHERE id = ?";
 $stmt = mysqli_prepare($connect, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -29,7 +29,11 @@ $row = mysqli_fetch_assoc($result);
 $id = htmlspecialchars($row['id']);
 $titulo = htmlspecialchars($row['titulo_error']);
 $descripcion = nl2br(htmlspecialchars($row['descripcion']));
+$propietario = htmlspecialchars($row['propietario']);
 $categoria = htmlspecialchars($row['categoria']);
+$tecnico = htmlspecialchars($row['tecnico']);
+$departamento = htmlspecialchars($row['departamento']);
+$gravedad =  htmlspecialchars($row['gravedad']);
 $fecha = date('d/m/Y H:i', strtotime($row['fecha']));
 
 mysqli_stmt_close($stmt);
@@ -153,11 +157,14 @@ mysqli_stmt_close($stmt);
         <div class="reporte-info">
             <div>
                 <div class="info-item"><span class="info-label">N° de Registro:</span> <?= $id ?></div>
+                <div class="info-item"><span class="info-label">Propietario:</span> <?= $propietario ?></div>
+                <div class="info-item"><span class="info-label">Tecnico encargado:</span> <?= $tecnico ?></div>
+                <div class="info-item"><span class="info-label">Departamento:</span> <?= $departamento ?></div>
                 <div class="info-item"><span class="info-label">Fecha:</span> <?= $fecha ?></div>
             </div>
             <div>
                 <div class="info-item"><span class="info-label">Categoría:</span> <span class="badge"><?= $categoria ?></span></div>
-                <div class="info-item"><span class="info-label">Prioridad:</span> <span class="badge">Alta</span></div>
+                <div class="info-item"><span class="info-label">Prioridad:</span> <span class="badge"><?= $gravedad?></span></div>
             </div>
         </div>
         

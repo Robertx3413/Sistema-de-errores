@@ -76,7 +76,7 @@ if (!$usuario) {
 
         <div class="table-container">
             <?php
-            $sql = "SELECT `id`, `titulo_error`, `descripcion`, `categoria`, `fecha` FROM `registro` ORDER BY `fecha` DESC";
+            $sql = "SELECT * FROM `registro` ORDER BY `fecha` DESC";
             $result = mysqli_query($connect, $sql);
             
             if (mysqli_num_rows($result) > 0): ?>
@@ -141,6 +141,32 @@ if (!$usuario) {
                 </tr>
 
 
+            <!-- modal informacion -->
+           
+<div class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4>Información del Registro</h4>
+            <span class="btn-close">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                </svg>
+            </span>
+        </div>
+        <div class="modal-txt">
+            <!-- Aquí puedes poner la información que deseas mostrar -->
+            <p><strong>Propietario del equipo:</strong> <?php echo $row['propietario']?></p>
+            <p><strong>Descripción del problema:</strong> <?php echo $row['descripcion']?></p>
+            <p><strong>Gravedad:</strong> <?php echo $row['gravedad']?></p>
+            <p><strong>Técnico encargado:</strong> <?php echo $row['tecnico']?></p>
+            <p><strong>Departamento encargado:</strong> <?php echo $row['departamento']?></p>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn-off btn btn-warning">Cerrar</button>
+        </div>
+    </div>
+</div>
+
                 <!-- modal eliminar -->
 
                     <div class="modal">
@@ -164,7 +190,9 @@ if (!$usuario) {
                     </div>
                     </div>
 
+                
 
+             
 
 
 
