@@ -89,6 +89,9 @@ body {
 
 .container-side-text{
     color: var(--light-color);
+    width: 100%;
+    margin: auto;
+    padding: 2rem;
 }
 
 .container-side-text h2{
@@ -228,7 +231,7 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
 .form-container {
     height: 100%;
     background: #ffffff;
-    width: 60%;
+    width: 45%;
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);

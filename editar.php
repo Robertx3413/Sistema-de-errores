@@ -88,15 +88,8 @@ mysqli_stmt_close($stmt);
                            value="<?= $titulo_error ?>" 
                            placeholder="Ej: Pantalla azul al iniciar Windows" required>
                 </div>
-                
-                <div class="form-group">
-                    <label for="errorDescription">Descripción Detallada *</label>
-                    <textarea id="errorDescription" name="errorDescription" 
-                              placeholder="Describa el error con el mayor detalle posible..." 
-                              required><?= $descripcion ?></textarea>
-                </div>
-                
-                <div class="form-group">
+
+                 <div class="form-group">
                     <label for="errorCategory">Categoría *</label>
                     <select id="errorCategory" name="errorCategory" required>
                         <option value="" disabled>Seleccione una categoría</option>
@@ -106,6 +99,50 @@ mysqli_stmt_close($stmt);
                         <option value="Red" <?= $categoria == 'Red' ? 'selected' : '' ?>>Red</option>
                         <option value="Sistema Operativo" <?= $categoria == 'Sistema Operativo' ? 'selected' : '' ?>>Sistema Operativo</option>
                         <option value="Otro" <?= $categoria == 'Otro' ? 'selected' : '' ?>>Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="errorDescription">Descripción Detallada *</label>
+                    <textarea id="errorDescription" name="errorDescription" 
+                              placeholder="Describa el error con el mayor detalle posible..." 
+                              required><?= $descripcion ?></textarea>
+                </div>
+                
+               
+
+                 <div class="form-group">
+                    <label for="nombreUsuarioEquipo" class="form-label">Nombre del Usuario del Equipo</label>
+                    <input type="text" id="nombreUsuarioEquipo" name="nombreUsuarioEquipo" class="form-input" placeholder="Nombre del usuario">
+                </div>
+
+                <div class="form-group">
+                    <label for="tecnicoReparacion" class="form-label">Técnico a Cargo de la Reparación</label>
+                    <input type="text" id="tecnicoReparacion" name="tecnicoReparacion" class="form-input" placeholder="Nombre del técnico" value="<?php echo isset($usuario) ? htmlspecialchars($usuario) : ''; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="text" id="departamento" name="departamento" class="form-input" placeholder="Departamento">
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaReparacion" class="form-label">Fecha de Reparación</label>
+                    <input type="date" id="fechaReparacion" name="fechaReparacion" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="lugarRegistro" class="form-label">Lugar de Registro</label>
+                    <input type="text" id="lugarRegistro" name="lugarRegistro" class="form-input" placeholder="Lugar donde se realiza el registro">
+                </div>
+
+                <div class="form-group">
+                    <label for="severidad" class="form-label">Gravedad del problema *</label>
+                    <select id="severidad" name="severidad" class="form-select">
+                        <option value="" disabled selected>Seleccione la gravedad</option>
+                        <option value="baja">Baja (molestia menor)</option>
+                        <option value="media">Media (afecta uso normal)</option>
+                        <option value="alta">Alta (inutiliza el equipo)</option>
                     </select>
                 </div>
                 
