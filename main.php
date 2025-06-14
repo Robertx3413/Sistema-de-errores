@@ -104,7 +104,7 @@ if (!$usuario) {
                 <td>
                 <div class="action-buttons">
 
-                <button type="button" class="btn btn-secondary action-btn">
+                <button type="button" class="btn btn-secondary action-btn btn-modal">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-edit" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 11V16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <circle cx="12" cy="7.5" r="1" fill="currentColor"/>
@@ -140,32 +140,34 @@ if (!$usuario) {
                 </td>
                 </tr>
 
-
-            <!-- modal informacion -->
-           
-<div class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4>Información del Registro</h4>
-            <span class="btn-close">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-                </svg>
-            </span>
-        </div>
-        <div class="modal-txt">
-            <!-- Aquí puedes poner la información que deseas mostrar -->
-            <p><strong>Propietario del equipo:</strong> <?php echo $row['propietario']?></p>
-            <p><strong>Descripción del problema:</strong> <?php echo $row['descripcion']?></p>
-            <p><strong>Gravedad:</strong> <?php echo $row['gravedad']?></p>
-            <p><strong>Técnico encargado:</strong> <?php echo $row['tecnico']?></p>
-            <p><strong>Departamento encargado:</strong> <?php echo $row['departamento']?></p>
-        </div>
-        <div class="modal-actions">
-            <button type="button" class="btn-off btn btn-warning">Cerrar</button>
-        </div>
-    </div>
-</div>
+        <!-- Modal de información -->
+                    <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <span class="btn-close">
+                            <!-- SVG para la X -->
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                            </svg>
+                        </span>
+                        <h4>Información del Registro</h4>
+                        </div>
+                        <div class="modal-txt">
+                        <!-- Aquí puedes poner tu PHP o contenido dinámico -->
+                        <div class="modal-txt">
+                            <!-- Aquí puedes poner la información que deseas mostrar -->
+                            <p><strong>Propietario del equipo:</strong> <?php echo $row['propietario']?></p>
+                            <p><strong>Descripción del problema:</strong> <?php echo $row['descripcion']?></p>
+                            <p><strong>Gravedad:</strong> <?php echo $row['gravedad']?></p>
+                            <p><strong>Técnico encargado:</strong> <?php echo $row['tecnico']?></p>
+                            <p><strong>Departamento encargado:</strong> <?php echo $row['departamento']?></p>
+                        </div>
+                        </div>
+                        <div class="modal-actions">
+                        <button type="button" class="btn-off btn btn-secondary">Cerrar</button>
+                        </div>
+                    </div>
+                    </div>
 
                 <!-- modal eliminar -->
 
@@ -221,6 +223,8 @@ if (!$usuario) {
     const btnsClose = document.querySelectorAll(".btn-close");
     const btnsOff = document.querySelectorAll(".btn-off");
 
+
+    
     btnsModal.forEach((btn, index) => {
         btn.addEventListener("click", function() {
             modals[index].classList.add("show");
