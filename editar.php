@@ -34,6 +34,7 @@ $descripcion = htmlspecialchars($row['descripcion']);
 $categoria = htmlspecialchars($row['categoria']);
 $propietario = htmlspecialchars($row['propietario']);
 $departamento = htmlspecialchars($row['departamento']);
+$tecnico = htmlspecialchars($row['tecnico']);
 $fecha = htmlspecialchars($row['fecha']);
 $registroLugar = htmlspecialchars($row['registroLugar']);
 $gravedad = htmlspecialchars($row['gravedad']);
@@ -129,7 +130,7 @@ mysqli_stmt_close($stmt);
 
                 <div class="form-group">
                     <label for="tecnicoReparacion" class="form-label">Técnico a Cargo de la Reparación</label>
-                    <input type="text" id="tecnicoReparacion" name="tecnicoReparacion" class="form-input" placeholder="Nombre del técnico" value="<?php echo isset($usuario) ? htmlspecialchars($usuario) : ''; ?>">
+                    <input type="text" id="tecnicoReparacion" name="tecnicoReparacion" class="form-input" placeholder="Nombre del técnico" value="<?php echo isset($tecnico) ? htmlspecialchars($tecnico) : ''; ?>">
                 </div>
 
                 <div class="form-group">

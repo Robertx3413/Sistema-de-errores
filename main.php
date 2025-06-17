@@ -87,8 +87,14 @@ $rol = $row['idrol'];
 
         <div class="table-container">
             <?php
-            $sql = "SELECT * FROM `registro` ORDER BY `fecha` DESC";
+            if ($rol === 1){
+                 $sql = "SELECT * FROM `registro` ORDER BY `fecha` DESC";
             $result = mysqli_query($connect, $sql);
+            }else{
+                $sql = "SELECT * FROM `registro` WHERE tecnico = '$usuario' ORDER BY `fecha` DESC";
+                 $result = mysqli_query($connect, $sql);
+            }
+           
             
             if (mysqli_num_rows($result) > 0): ?>
             <table>
@@ -145,6 +151,7 @@ $rol = $row['idrol'];
                     </svg>
                      Eliminar
                 </button>
+
                 </div>
                 </td>
                 </tr>
