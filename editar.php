@@ -32,16 +32,27 @@ $row = mysqli_fetch_assoc($result);
 $titulo_error = htmlspecialchars($row['titulo_error']);
 $descripcion = htmlspecialchars($row['descripcion']);
 $categoria = htmlspecialchars($row['categoria']);
+$propietario = htmlspecialchars($row['propietario']);
+$departamento = htmlspecialchars($row['departamento']);
+$fecha = htmlspecialchars($row['fecha']);
+$registroLugar = htmlspecialchars($row['registroLugar']);
+$gravedad = htmlspecialchars($row['gravedad']);
 
 // Procesar actualización
 if (isset($_POST['registrar'])) {
-    $falla1 = mysqli_real_escape_string($connect, $_POST['errorTitle']);
-    $falla2 = mysqli_real_escape_string($connect, $_POST['errorDescription']);
-    $falla3 = mysqli_real_escape_string($connect, $_POST['errorCategory']);
+    $errorTitle = mysqli_real_escape_string($connect, $_POST['errorTitle']);
+    $errorDescription = mysqli_real_escape_string($connect, $_POST['errorDescription']);
+    $errorCategory = mysqli_real_escape_string($connect, $_POST['errorCategory']);
+    $UsuarioEquipo = mysqli_real_escape_string($connect, $_POST['UsuarioEquipo']);
+    $departamento = mysqli_real_escape_string($connect, $_POST['departamento']);
+    $tecnicoReparacion = mysqli_real_escape_string($connect, $_POST['tecnicoReparacion']);
+    $fechaReparacion = mysqli_real_escape_string($connect, $_POST['fechaReparacion']);
+    $lugarRegistro = mysqli_real_escape_string($connect, $_POST['lugarRegistro']);
+    $severidad = mysqli_real_escape_string($connect, $_POST['severidad']);
 
-    $update_sql = "UPDATE registro SET titulo_error=?, descripcion=?, categoria=? WHERE id=?";
+    $update_sql = "UPDATE registro SET titulo_error=?, descripcion=?, categoria=?, propietario=?, departamento=?, fecha=?, registroLugar=?, gravedad=? WHERE id=?";
     $update_stmt = mysqli_prepare($connect, $update_sql);
-    mysqli_stmt_bind_param($update_stmt, "sssi", $falla1, $falla2, $falla3, $id);
+    mysqli_stmt_bind_param($update_stmt, "ssssssssi", $errorTitle, $errorDescription, $errorCategory, $UsuarioEquipo, $departamento, $fechaReparacion, $lugarRegistro, $severidad, $id);
     
     if (mysqli_stmt_execute($update_stmt)) {
         header('Location: main.php');
@@ -112,8 +123,8 @@ mysqli_stmt_close($stmt);
                
 
                  <div class="form-group">
-                    <label for="nombreUsuarioEquipo" class="form-label">Nombre del Usuario del Equipo</label>
-                    <input type="text" id="nombreUsuarioEquipo" name="nombreUsuarioEquipo" class="form-input" placeholder="Nombre del usuario">
+                    <label for="UsuarioEquipo" class="form-label">Nombre del Usuario del Equipo</label>
+                    <input type="text" id="UsuarioEquipo" name="UsuarioEquipo" class="form-input" placeholder="Nombre del usuario" value="<?php echo isset($propietario) ? htmlspecialchars($propietario) : ''; ?>">
                 </div>
 
                 <div class="form-group">
@@ -123,26 +134,26 @@ mysqli_stmt_close($stmt);
 
                 <div class="form-group">
                     <label for="departamento" class="form-label">Departamento</label>
-                    <input type="text" id="departamento" name="departamento" class="form-input" placeholder="Departamento">
+                    <input type="text" id="departamento" name="departamento" class="form-input" placeholder="Departamento" value="<?php echo isset($departamento) ? htmlspecialchars($departamento) : ''; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="fechaReparacion" class="form-label">Fecha de Reparación</label>
-                    <input type="date" id="fechaReparacion" name="fechaReparacion" class="form-input">
+                    <input type="date" id="fechaReparacion" name="fechaReparacion" class="form-input" value="<?php echo isset($fecha) ? htmlspecialchars($fecha) : ''; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="lugarRegistro" class="form-label">Lugar de Registro</label>
-                    <input type="text" id="lugarRegistro" name="lugarRegistro" class="form-input" placeholder="Lugar donde se realiza el registro">
+                    <input type="text" id="lugarRegistro" name="lugarRegistro" class="form-input" placeholder="Lugar donde se realiza el registro" value="<?php echo isset($registroLugar) ? htmlspecialchars($registroLugar) : ''; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="severidad" class="form-label">Gravedad del problema *</label>
                     <select id="severidad" name="severidad" class="form-select">
                         <option value="" disabled selected>Seleccione la gravedad</option>
-                        <option value="baja">Baja (molestia menor)</option>
-                        <option value="media">Media (afecta uso normal)</option>
-                        <option value="alta">Alta (inutiliza el equipo)</option>
+                        <option value="baja"<?= $gravedad == 'baja' ? 'selected' : '' ?>>Baja (molestia menor)</option>
+                        <option value="media" <?= $gravedad == 'media' ? 'selected' : '' ?>>Media (afecta uso normal)</option>
+                        <option value="alta" <?= $gravedad == 'alta' ? 'selected' : '' ?>>Alta (inutiliza el equipo)</option>
                     </select>
                 </div>
                 

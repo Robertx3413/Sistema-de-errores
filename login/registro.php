@@ -36,9 +36,10 @@ if (isset($_POST['registrar'])) {
             $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
             
             // Insertar el nuevo usuario en la base de datos
-            $sql = "INSERT INTO usuario (usuario, contraseña) VALUES (?, ?)";
+            $rol = 2;
+            $sql = "INSERT INTO usuario (usuario, contraseña,idrol) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($connect, $sql);
-            mysqli_stmt_bind_param($stmt, "ss", $usuario, $hashed_password);
+            mysqli_stmt_bind_param($stmt, "ssi", $usuario, $hashed_password, $rol);
             
             if (mysqli_stmt_execute($stmt)) {
                 // Registro exitoso, redirigir al usuario a la página principal

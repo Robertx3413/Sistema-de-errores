@@ -57,7 +57,7 @@ if (!$usuario) {
                                     <path d="M4 17C4 16.4477 4.44772 16 5 16H9C9.55228 16 10 16.4477 10 17V19C10 19.5523 9.55228 20 9 20H5C4.44772 20 4 19.5523 4 19V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                     <path d="M13 5C13 4.44772 13.4477 4 14 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H14C13.4477 8 13 7.55228 13 7V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                 </svg>
-                                <span>Dashboard</span>
+                                <span>Equipos reparados</span>
                             </a>
                         </li>
                     </ul>
@@ -77,14 +77,13 @@ if (!$usuario) {
 
         <div class="table-container">
             <?php
-            $sql = "SELECT `id`, `titulo_error`, `descripcion`, `categoria`, `fecha` FROM `registro` ORDER BY `fecha` DESC";
+            $sql = "SELECT `id`, `titulo_error`, `descripcion`, `categoria`, `fecha` FROM `equiposreparados` ORDER BY `fecha` DESC";
             $result = mysqli_query($connect, $sql);
             
             if (mysqli_num_rows($result) > 0): ?>
             <table>
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Título</th>
                 <th>Categoría</th>
                 <th>Fecha</th>
@@ -94,7 +93,6 @@ if (!$usuario) {
             <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)): ?>
                 <tr>
-                <td><?= htmlspecialchars($row['id']) ?></td>
                 <td><?= htmlspecialchars($row['titulo_error']) ?></td>
                 <td>
                 <span class="badge badge-primary">

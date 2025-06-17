@@ -23,9 +23,9 @@ if(isset($_POST['registrar'])) {
 
     
 
-    $sql = "INSERT INTO registro (titulo_error, descripcion, propietario, categoria, tecnico, departamento,gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ? )";
+    $sql = "INSERT INTO registro (titulo_error, descripcion, propietario, categoria, tecnico, departamento,registroLugar, gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
     $stmt = mysqli_prepare($connect, $sql);
-    mysqli_stmt_bind_param($stmt, "ssssssss", $titulo, $descripcion,$propietario, $categoria, $tecnico, $departamento, $severidad, $fecha);
+    mysqli_stmt_bind_param($stmt, "sssssssss", $titulo, $descripcion,$propietario, $categoria, $tecnico, $departamento,$registroLugar, $severidad, $fecha);
     
     if(mysqli_stmt_execute($stmt)) {
         header('Location: main.php');
