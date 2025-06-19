@@ -57,11 +57,23 @@ if(isset($_POST['registrar'])) {
                     </svg> Registro de Errores
                 </h1>
                 <div class="btn-group">
+
+                    <a href="http://localhost/dashboard/sistema/main.php" class="btn btn-secondary">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-svg" aria-hidden="true" focusable="false">
+                            <g>
+                                <path d="M17 16L13 12L17 8M11 16L7 12L11 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                        </svg> Volver
+                    </a>
+
+
                     <a href="formulario.php" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                         </svg> Agregar
                     </a>
+
+                   
                     
                 </div>
 
@@ -116,7 +128,7 @@ if(isset($_POST['registrar'])) {
                 <div class="form-group">
                     <label for="errorTitle" class="form-label">Título del Error *</label>
                     <input type="text" id="errorTitle" name="errorTitle" class="form-input" placeholder="Ej: Pantalla azul al iniciar Windows">
-                </div>
+                </div>  
                 
                 <div class="form-group">
                     <label for="errorCategory" class="form-label">Categoría *</label>

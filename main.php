@@ -126,7 +126,7 @@ $rol = $row['idrol'];
                     </svg> Info
                 </button>
 
-                <a href="prueba.php?id=<?= $row['id'] ?>" class="btn btn-success action-btn">
+                <a href="prueba.php?id=<?= $row['id'] ?>" class="btn btn-success action-btn" target="_blank" rel="noopener">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-print" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 6C7 4.89543 7.89543 4 9 4H15C16.1046 4 17 4.89543 17 6V8H7V6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M7 14H17V18C17 19.1046 16.1046 20 15 20H9C7.89543 20 7 19.1046 7 18V14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
