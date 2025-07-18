@@ -61,7 +61,16 @@ if (isset($_POST['registrar'])) {
         <div class="container-side shapedividers_com-3746">
             <div class="container-side-text">
                 <h2> Sistema de Gestión de Fallas PC</h2>
-                <p>Reporta y consulta fallas de manera eficiente.</p>
+                <div class="side-text">
+                    <p>
+                        Solución rápida y organizada para reportar y resolver problemas de computadoras.
+                    </p>
+                    <ul>
+                        <li>✅ Registro sencillo de fallas de hardware y software.</li>
+                        <li>✅ Seguimiento en tiempo real de solicitudes.</li>
+                        <li>✅ Respuesta ágil con técnicos asignados..</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -85,7 +94,7 @@ if (isset($_POST['registrar'])) {
                 <?php endif; ?>
             
 
-        <div class="error alert-danger" id="error-general"></div>
+            <div class="error alert-danger" id="error-general"></div>
 
             <div class="form-group">
                 <label>Nombre de Usuario</label>
@@ -119,39 +128,6 @@ if (isset($_POST['registrar'])) {
     </div>
 </body>
 
-<script>
-
-    const user = document.getElementById('user');
-    const pass = document.getElementById('pass');
-    const form = document.querySelector('form');
-    const errorGeneral = document.getElementById('error-general');
-
-    form.addEventListener('submit', (e) => {
-        let messages = [];
-
-        if (user.value === '' || user.value == null) {
-            messages.push('El usuario es requerido');
-
-        } else if (!/^[a-zA-Z0-9]+$/.test(user.value)) {
-            messages.push('El usuario solo puede contener letras y números');
-        }
-
-        if (pass.value === '' || pass.value == null) {
-            messages.push('La contraseña es requerida');
-        } else if (pass.value.length < 4) {
-            messages.push('La contraseña debe tener al menos 4 caracteres');
-        }
-
-       if (messages.length > 0) {
-            e.preventDefault();
-            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
-            errorGeneral.style.display = 'block'; // Asegura que el mensaje se muestre
-        } else {
-            errorGeneral.style.display = 'none'; // Oculta el mensaje si no hay errores
-        }
-    });
-
-
-</script>
+<script src="../validacion.js"></script>
 </html>
 

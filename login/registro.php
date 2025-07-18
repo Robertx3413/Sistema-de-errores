@@ -124,11 +124,11 @@ if (isset($_POST['registrar'])) {
         </form>
         </div>
     
-        <!-- Footer con información de creadores -->
         
     </div>
 </body>
 <script>
+    
 
     const user = document.getElementById('user');
     const pass = document.getElementById('pass');
@@ -138,28 +138,24 @@ if (isset($_POST['registrar'])) {
     form.addEventListener('submit', (e) => {
         let messages = [];
 
-        if (user.value === '' || user.value == null) {
-            messages.push('El usuario es requerido');
-        } else if (!/^[a-zA-Z0-9]+$/.test(user.value)) {
-            messages.push('El usuario solo puede contener letras y números');
+        if (!/^[a-zA-Z0-9]{4,16}$/.test(user.value.trim())) {
+            messages.push('El usuario debe tener entre 4 y 16 caracteres y solo puede contener letras y números.');
+        }
+        if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass.value)) {
+            messages.push('La contraseña debe tener al menos 6 caracteres, contener al menos una letra y un número.');
         }
 
-        if (pass.value === '' || pass.value == null) {
-            messages.push('La contraseña es requerida');
-        }
-        else if (pass.value.length < 4) {
-            messages.push('La contraseña debe tener al menos 4 caracteres');
-        }
-        
         if (messages.length > 0) {
             e.preventDefault();
-            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
-            errorGeneral.style.display = 'block'; // Asegura que el mensaje se muestre
+            errorGeneral.innerText = messages[0];
+            errorGeneral.style.display = 'block';
+
+            setTimeout(() => {
+                errorGeneral.style.display = 'none';
+            }, 3000);
         } else {
-            errorGeneral.style.display = 'none'; // Oculta el mensaje si no hay errores
+            errorGeneral.style.display = 'none';
         }
     });
-
-
 </script>
 </html>

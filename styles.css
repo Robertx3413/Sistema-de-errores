@@ -38,6 +38,10 @@ body {
 
 .error{
     display: none;
+    position: fixed;
+    bottom: 0;
+    right: 30px;
+    z-index: 2000;
     padding: 12px;
     margin-bottom: 1.5rem;
     border-radius: var(--border-radius);
@@ -49,7 +53,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
     height: 100vh;
 }
 
@@ -97,17 +100,36 @@ body {
 
 .container-side-text h2{
     font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-weight: bold;
 }
 
-.container-side-text p{
+.side-text{
     color: gainsboro;
     font-weight: bolder;
-    font-size: 1.8rem;
     margin-bottom: 1rem;
-    padding-left: 1em;
+    
 }
+
+.side-text p{
+    font-size: 1.6rem;
+    margin-right: 10rem;
+    margin-bottom: 1rem;
+}
+
+.side-text ul{
+    list-style: none;
+    
+    
+}
+
+.side-text ul li{
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    font-weight: bold;
+}
+
 
 /* ================ COMPONENTES DE FORMULARIO ================ */
 
@@ -233,7 +255,7 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
     height: 100%;
     background: #ffffff;
     width: 45%;
-    padding: 2rem;
+    padding: 0 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     transition: var(--transition);
