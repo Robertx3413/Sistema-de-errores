@@ -15,7 +15,6 @@ if(isset($_POST['registrar'])) {
     $categoria = mysqli_real_escape_string($connect, $_POST['errorCategory']);
     $tecnico = mysqli_real_escape_string($connect, $_POST['Technical']);
     $departamento = mysqli_real_escape_string($connect, $_POST['Department']);
-    $registroLugar = mysqli_real_escape_string($connect, $_POST['registro']); 
     $severidad = mysqli_real_escape_string($connect, $_POST['severidad']);
     $fecha = mysqli_real_escape_string($connect, $_POST['date']); 
 
@@ -23,9 +22,9 @@ if(isset($_POST['registrar'])) {
 
     
 
-    $sql = "INSERT INTO registro (titulo_error, descripcion, propietario, categoria, tecnico, departamento,registroLugar, gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
+    $sql = "INSERT INTO registro (titulo_error, descripcion, propietario, categoria, tecnico, departamento, gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ? )";
     $stmt = mysqli_prepare($connect, $sql);
-    mysqli_stmt_bind_param($stmt, "sssssssss", $titulo, $descripcion,$propietario, $categoria, $tecnico, $departamento,$registroLugar, $severidad, $fecha);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $titulo, $descripcion,$propietario, $categoria, $tecnico, $departamento, $severidad, $fecha);
     
     if(mysqli_stmt_execute($stmt)) {
         header('Location: main.php');
@@ -149,29 +148,25 @@ if(isset($_POST['registrar'])) {
                 </div>
                 
                 <div class="form-group">
-                    <label for="Owner" class="form-label">Nombre del Usuario del Equipo</label>
+                    <label for="Owner" class="form-label">Nombre del Usuario del Equipo *</label>
                     <input type="text" id="Owner" name="Owner" class="form-input" placeholder="Nombre del usuario">
                 </div>
 
                 <div class="form-group">
-                    <label for="Technical" class="form-label">Técnico a Cargo de la Reparación</label>
+                    <label for="Technical" class="form-label">Técnico a Cargo de la Reparación *</label>
                     <input type="text" id="Technical" name="Technical" class="form-input" placeholder="Nombre del técnico" value="<?php echo isset($usuario) ? htmlspecialchars($usuario) : ''; ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="Department" class="form-label">Departamento</label>
+                    <label for="Department" class="form-label">Departamento *</label>
                     <input type="text" id="Department" name="Department" class="form-input" placeholder="Departamento">
                 </div>
 
                 <div class="form-group">
-                    <label for="date" class="form-label">Fecha de Reparación</label>
+                    <label for="date" class="form-label">Fecha de Reparación *</label>
                     <input type="date" id="date" name="date" class="form-input">
                 </div>
 
-                <div class="form-group">
-                    <label for="lugarRegistro" class="form-label">Lugar de Registro</label>
-                    <input type="text" id="registro" name="registro" class="form-input" placeholder="Lugar donde se realiza el registro">
-                </div>
 
                 <div class="form-group">
                     <label for="severidad" class="form-label">Gravedad del problema *</label>
@@ -199,8 +194,13 @@ if(isset($_POST['registrar'])) {
             const title = document.getElementById('errorTitle').value.trim();
             const description = document.getElementById('errorDescription').value.trim();
             const category = document.getElementById('errorCategory').value;
+            const Owner = document.getElementById('Owner').value.trim();
+            const Technical = document.getElementById('Technical').value.trim();
+            const Department = document.getElementById('Department').value.trim();
+            const date = document.getElementById('date').value.trim();
+            const severidad = document.getElementById('severidad').value.trim();
             
-            if(!title || !description || !category) {
+            if(!title || !description || !category || !Owner || !Technical || !Department || !date || !severidad) {
                 e.preventDefault();
                 alert('Por favor complete todos los campos obligatorios (*)');
             }

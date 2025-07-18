@@ -19,14 +19,13 @@ $propietario = htmlspecialchars($row['propietario']);
 $tecnico = htmlspecialchars($row['tecnico']);
 $departamento = htmlspecialchars($row['departamento']);
 $fecha = htmlspecialchars($row['fecha']);
-$registroLugar = htmlspecialchars($row['registroLugar']);
 $gravedad = htmlspecialchars($row['gravedad']);
 
 
   
-  $sqlinsert = "INSERT INTO equiposreparados (titulo_error, descripcion, propietario, categoria, tecnico, departamento, registroLugar, gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $sqlinsert = "INSERT INTO equiposreparados (titulo_error, descripcion, propietario, categoria, tecnico, departamento,  gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   $stmt2 = mysqli_prepare($connect, $sqlinsert);
-  mysqli_stmt_bind_param($stmt2, "sssssssss", $titulo, $descripcion, $propietario, $categoria, $tecnico, $departamento, $registroLugar, $gravedad, $fecha);
+  mysqli_stmt_bind_param($stmt2, "ssssssss", $titulo, $descripcion, $propietario, $categoria, $tecnico, $departamento,  $gravedad, $fecha);
   if (mysqli_stmt_execute($stmt2)) {
   
       $sql2 = "DELETE FROM registro WHERE id = ?";
