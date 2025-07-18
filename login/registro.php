@@ -5,6 +5,8 @@ include "../connect.php";
 // Variables para mensajes de error
 $error_usuario = '';
 $error_pass = '';
+$error_preguntaseguridad = '';
+$error_respuesta = '';
 $error_general = '';
 
 // Procesar formulario cuando se envía
@@ -17,11 +19,21 @@ if (isset($_POST['registrar'])) {
     if (empty($_POST["pass"])) {
         $error_pass = 'Por favor ingrese una contraseña';
     }
+
+    if (empty($_POST["preguntaseguridad"])) {
+        $error_preguntaseguridad = 'Por favor ingrese una pregunta de seguridad';
+    }
+
+    if (empty($_POST["respuesta"])) {
+        $error_respuesta = 'Por favor ingrese una respuesta';
+    }
     
     // Si no hay errores de campos vacíos, validar que el usuario no exista
-    if (empty($error_usuario) && empty($error_pass)) {
+    if (empty($error_usuario) && empty($error_pass) && empty($error_preguntaseguridad) && empty($error_respuesta)) {
         $usuario = mysqli_real_escape_string($connect, trim($_POST["usuario"]));
         $pass = $_POST["pass"];
+        $preguntaseguridad = mysqli_real_escape_string($connect, trim($_POST["preguntaseguridad"]));
+        $respuesta = $_POST["respuesta"];
         
         $sql = "SELECT * FROM usuario WHERE usuario = ?";
         $stmt = mysqli_prepare($connect, $sql);
@@ -32,19 +44,22 @@ if (isset($_POST['registrar'])) {
         if (mysqli_num_rows($consulta) > 0) {
             $error_general = 'El nombre de usuario ya existe. Por favor, elige otro.';
         } else {
-            // Hash de la contraseña
+            // Hash de la contraseña y respuesta
             $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+            $hashed_respuesta = password_hash($respuesta, PASSWORD_DEFAULT);
             
             // Insertar el nuevo usuario en la base de datos
             $rol = 2;
-            $sql = "INSERT INTO usuario (usuario, contraseña,idrol) VALUES (?, ?, ?)";
+            $intentosfallidos= 0;
+            $estado= "Activo";
+            $sql = "INSERT INTO usuario (usuario, contraseña, preguntaseguridad, respuesta,intentosfallidos, estado, idrol) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($connect, $sql);
-            mysqli_stmt_bind_param($stmt, "ssi", $usuario, $hashed_password, $rol);
+            mysqli_stmt_bind_param($stmt, "ssssssi", $usuario, $hashed_password, $preguntaseguridad, $hashed_respuesta,$intentosfallidos, $estado, $rol);
             
             if (mysqli_stmt_execute($stmt)) {
                 // Registro exitoso, redirigir al usuario a la página principal
                 $_SESSION['usuario'] = $usuario;
-                header("Location: ../main.php");
+                header("Location: ../login/index.php");
                 exit();
             } else {
                 $error_general = 'Error al registrar el usuario. Por favor, inténtalo de nuevo.';
@@ -116,19 +131,37 @@ if (isset($_POST['registrar'])) {
                 <?php endif; ?>
             </div>
 
-            <div class="form-group ">
-                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
+            <div class="form-group">
+                <label>Pregunta de Seguridad</label>
+                <input type="text" name="preguntaseguridad" id="preguntaseguridad" placeholder="Ingrese una pregunta de seguridad"
+                    value="<?php echo isset($_POST['preguntaseguridad']) ? htmlspecialchars($_POST['preguntaseguridad']) : ''; ?>"
+                    class="<?php echo !empty($error_preguntaseguridad) ? 'error' : ''; ?>">
+                <?php if(!empty($error_preguntaseguridad)): ?>
+                    <span class="error-message"><?php echo $error_preguntaseguridad; ?></span>
+                <?php endif; ?>
+            </div>
+
+            <div class="form-group">
+                <label>Respuesta</label>
+                <input type="password" name="respuesta" id="respuesta" placeholder="Ingrese una respuesta"
+                    class="<?php echo !empty($error_respuesta) ? 'error' : ''; ?>">
+                <?php if(!empty($error_respuesta)): ?>
+                    <span class="error-message"><?php echo $error_respuesta; ?></span>
+                <?php endif; ?>
             </div>
 
             <button type="submit" name="registrar" class="btn btn-primary">Registrar</button>
+              <div class="form-group ">
+                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
+            </div>
         </form>
         </div>
     
+        <!-- Footer con información de creadores -->
         
     </div>
 </body>
 <script>
-    
 
     const user = document.getElementById('user');
     const pass = document.getElementById('pass');
@@ -138,24 +171,38 @@ if (isset($_POST['registrar'])) {
     form.addEventListener('submit', (e) => {
         let messages = [];
 
-        if (!/^[a-zA-Z0-9]{4,16}$/.test(user.value.trim())) {
-            messages.push('El usuario debe tener entre 4 y 16 caracteres y solo puede contener letras y números.');
-        }
-        if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass.value)) {
-            messages.push('La contraseña debe tener al menos 6 caracteres, contener al menos una letra y un número.');
+        if (user.value === '' || user.value == null) {
+            messages.push('El usuario es requerido');
+        } else if (!/^[a-zA-Z0-9]+$/.test(user.value)) {
+            messages.push('El usuario solo puede contener letras y números');
         }
 
+        if (pass.value === '' || pass.value == null) {
+            messages.push('La contraseña es requerida');
+        }
+        else if (pass.value.length < 4) {
+            messages.push('La contraseña debe tener al menos 4 caracteres');
+        }
+
+        const preguntaseguridad = document.getElementById('preguntaseguridad');
+        if (preguntaseguridad.value === '' || preguntaseguridad.value == null) {
+            messages.push('La pregunta de seguridad es requerida');
+        }
+
+        const respuesta = document.getElementById('respuesta');
+        if (respuesta.value === '' || respuesta.value == null) {
+            messages.push('La respuesta es requerida');
+        }
+        
         if (messages.length > 0) {
             e.preventDefault();
-            errorGeneral.innerText = messages[0];
-            errorGeneral.style.display = 'block';
-
-            setTimeout(() => {
-                errorGeneral.style.display = 'none';
-            }, 3000);
+            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
+            errorGeneral.style.display = 'block'; // Asegura que el mensaje se muestre
         } else {
-            errorGeneral.style.display = 'none';
+            errorGeneral.style.display = 'none'; // Oculta el mensaje si no hay errores
         }
     });
+
+
 </script>
 </html>

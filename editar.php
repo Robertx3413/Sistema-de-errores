@@ -36,7 +36,6 @@ $propietario = htmlspecialchars($row['propietario']);
 $departamento = htmlspecialchars($row['departamento']);
 $tecnico = htmlspecialchars($row['tecnico']);
 $fecha = htmlspecialchars($row['fecha']);
-$registroLugar = htmlspecialchars($row['registroLugar']);
 $gravedad = htmlspecialchars($row['gravedad']);
 
 // Procesar actualización
@@ -48,12 +47,11 @@ if (isset($_POST['registrar'])) {
     $departamento = mysqli_real_escape_string($connect, $_POST['departamento']);
     $tecnicoReparacion = mysqli_real_escape_string($connect, $_POST['tecnicoReparacion']);
     $fechaReparacion = mysqli_real_escape_string($connect, $_POST['fechaReparacion']);
-    $lugarRegistro = mysqli_real_escape_string($connect, $_POST['lugarRegistro']);
     $severidad = mysqli_real_escape_string($connect, $_POST['severidad']);
 
-    $update_sql = "UPDATE registro SET titulo_error=?, descripcion=?, categoria=?, propietario=?, departamento=?, fecha=?, registroLugar=?, gravedad=? WHERE id=?";
+    $update_sql = "UPDATE registro SET titulo_error=?, descripcion=?, categoria=?, propietario=?, departamento=?, fecha=?, gravedad=? WHERE id=?";
     $update_stmt = mysqli_prepare($connect, $update_sql);
-    mysqli_stmt_bind_param($update_stmt, "ssssssssi", $errorTitle, $errorDescription, $errorCategory, $UsuarioEquipo, $departamento, $fechaReparacion, $lugarRegistro, $severidad, $id);
+    mysqli_stmt_bind_param($update_stmt, "sssssssi", $errorTitle, $errorDescription, $errorCategory, $UsuarioEquipo, $departamento, $fechaReparacion, $severidad, $id);
     
     if (mysqli_stmt_execute($update_stmt)) {
         header('Location: main.php');
@@ -211,11 +209,6 @@ mysqli_stmt_close($stmt);
                 </div>
 
                 <div class="form-group">
-                    <label for="lugarRegistro" class="form-label">Lugar de Registro</label>
-                    <input type="text" id="lugarRegistro" name="lugarRegistro" class="form-input" placeholder="Lugar donde se realiza el registro" value="<?php echo isset($registroLugar) ? htmlspecialchars($registroLugar) : ''; ?>">
-                </div>
-
-                <div class="form-group">
                     <label for="severidad" class="form-label">Gravedad del problema *</label>
                     <select id="severidad" name="severidad" class="form-select">
                         <option value="" disabled selected>Seleccione la gravedad</option>
@@ -290,15 +283,20 @@ mysqli_stmt_close($stmt);
         });
     });
 
-        document.querySelector('form').addEventListener('submit', function(e) {
+         document.querySelector('form').addEventListener('submit', function(e) {
             const title = document.getElementById('errorTitle').value.trim();
             const description = document.getElementById('errorDescription').value.trim();
             const category = document.getElementById('errorCategory').value;
+            const UsuarioEquipo = document.getElementById('UsuarioEquipo').value.trim();
+            const tecnicoReparacion = document.getElementById('tecnicoReparacion').value.trim();
+            const departamento = document.getElementById('departamento').value.trim();
+            const fechaReparacion = document.getElementById('fechaReparacion').value.trim();
+            const severidad = document.getElementById('severidad').value.trim();
+        
             
-            if (!title || !description || !category) {
+            if(!title || !description || !category || !UsuarioEquipo || !tecnicoReparacion || !fechaReparacion || !severidad || !departamento) {
                 e.preventDefault();
                 alert('Por favor complete todos los campos obligatorios (*)');
-                return false;
             }
             
             if (description.length < 20) {
