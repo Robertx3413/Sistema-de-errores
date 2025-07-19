@@ -153,31 +153,7 @@ $rol = $row['idrol'];
                 </div>
                 </td>
                 </tr>
-
-                        <!-- modal eliminar -->
-
-                    <div class="modal">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <span class="btn-close">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-                        </svg>
-                        </span>
-                        <h4>Confirmar Eliminación</h4>
-                    </div>
-                    <div class="modal-txt">
-                        
-                        <p>¿Estás seguro de que deseas eliminar este registro?</p>
-                    </div>
-                    <div class="modal-actions">
-                        <a href="eliminar.php?eliminarid=<?= $row['id'] ?>" class="btn btn-danger">Eliminar</a href="">
-                        <button type="button" class="btn-off btn btn-warning">Cancelar</button>
-                    </div>
-                    </div>
-                    </div>
-
-                 <!-- Modal de información -->
+            <!-- Modal de información -->
                     <div class="modal" data-id="<?= $row['id'] ?>">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -205,6 +181,30 @@ $rol = $row['idrol'];
                     </div>
                     </div>
 
+                    <!-- modal eliminar -->
+
+                    <div class="modal delete-modal">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="btn-close">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                        </svg>
+                        </span>
+                        <h4>Confirmar Eliminación</h4>
+                    </div>
+                    <div class="modal-txt">
+                        
+                        <p>¿Estás seguro de que deseas eliminar este registro?</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="eliminar.php?eliminarid=<?= $row['id'] ?>" class="btn btn-danger">Eliminar</a href="">
+                        <button type="button" class="btn-off btn btn-warning">Cancelar</button>
+                    </div>
+                    </div>
+                    </div>
+
+               
           
 
              
@@ -238,11 +238,12 @@ $rol = $row['idrol'];
 
     const btnsInfo = document.querySelectorAll(".btn-info");
     const infoModals = document.querySelectorAll(".modal[data-id]");
+    const deleteModals = document.querySelectorAll(".delete-modal");
 
     
     btnsModal.forEach((btn, index) => {
         btn.addEventListener("click", function() {
-            modals[index].classList.add("show");
+            deleteModals[index].classList.add("show");
         });
     });
 
