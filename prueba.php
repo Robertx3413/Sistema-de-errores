@@ -3,7 +3,7 @@
 ob_start();
 
 // Incluir conexión y validar ID
-include '../connect.php';
+include 'connect.php';
 
 // Validar y sanitizar el ID
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

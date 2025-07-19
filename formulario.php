@@ -105,7 +105,7 @@ if(isset($_POST['registrar'])) {
                     <?php
                     if ($rol === 1){
                         echo ' <li class="nav-item">
-                            <a href="dashboard.php">
+                            <a href="equiposReparados\dashboard.php">
                                 <!-- Improved Dashboard SVG: simple, bold, accessible -->
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                     <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
