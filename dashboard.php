@@ -1,9 +1,9 @@
 <?php
-include "connect.php";
+include "../connect.php";
 session_start();
 $usuario = $_SESSION['usuario'] ?? null;
 if (!$usuario) {
-    header('Location: login/index.php');
+    header('Location: ../login/index.php');
     exit();
 }
 $sql = "SELECT * FROM usuario WHERE usuario = ?";
@@ -20,7 +20,7 @@ $rol = $row['idrol'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
 
@@ -29,13 +29,21 @@ $rol = $row['idrol'];
                 <h1>
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
-                    </svg> Equipos Reparados
+                    </svg> Dashboard
                 </h1>
+                <div class="btn-group">
+                    <a href="formulario.php" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg> Agregar
+                    </a>
+                    
+                </div>
 
                 <nav class="nav">
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a href="main.php">
+                            <a href="../main.php">
                                 <!-- Improved Home SVG: clearer, more modern, accessible -->
 
                                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-nav" aria-hidden="true" focusable="false">
@@ -62,7 +70,7 @@ $rol = $row['idrol'];
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="usuarios/usuarios.php">
+                            <a href="../usuarios/usuarios.php">
                                 <!-- Improved Dashboard SVG: simple, bold, accessible -->
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                     <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
@@ -77,7 +85,7 @@ $rol = $row['idrol'];
                     }  
                     ?>
                     <div class="container-off">
-                            <a href="login/cerrar_sesion.php" class="btn btn-danger ">
+                            <a href="../login/cerrar_sesion.php" class="btn btn-danger ">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
                                     <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
@@ -92,7 +100,7 @@ $rol = $row['idrol'];
 
         <div class="table-container">
             <?php
-            $sql = "SELECT `id`, `titulo_error`, `descripcion`, `categoria`, `fecha` FROM `equiposreparados` ORDER BY `fecha` DESC";
+            $sql = "SELECT * FROM `equiposreparados` ORDER BY `fecha` DESC";
             $result = mysqli_query($connect, $sql);
             
             if (mysqli_num_rows($result) > 0): ?>
@@ -118,7 +126,7 @@ $rol = $row['idrol'];
                 <td>
                 <div class="action-buttons">
 
-                <button type="button" class="btn btn-secondary action-btn">
+                <button type="button" class="btn btn-secondary action-btn btn-info" data-id="<?= $row['id'] ?>">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-edit" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 11V16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <circle cx="12" cy="7.5" r="1" fill="currentColor"/>
@@ -135,14 +143,14 @@ $rol = $row['idrol'];
                      Imprimir
                 </a>
 
-                <a href="editar.php?editarid=<?= $row['id'] ?>" class="btn btn-warning action-btn">
+                <a href="equiporeparadosedit.php?editarid=<?= $row['id'] ?>" class="btn btn-warning action-btn">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-edit" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 3.99997H6C4.89543 3.99997 4 4.8954 4 5.99997V18C4 19.1045 4.89543 20 6 20H18C19.1046 20 20 19.1045 20 18V12M18.4142 8.41417L19.5 7.32842C20.281 6.54737 20.281 5.28104 19.5 4.5C18.7189 3.71895 17.4526 3.71895 16.6715 4.50001L15.5858 5.58575M18.4142 8.41417L12.3779 14.4505C12.0987 14.7297 11.7431 14.9201 11.356 14.9975L8.41422 15.5858L9.00257 12.6441C9.08001 12.2569 9.27032 11.9013 9.54951 11.6221L15.5858 5.58575M18.4142 8.41417L15.5858 5.58575" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                      Editar
                 </a>
 
-                <button type="button" class="btn btn-danger action-btn btn-modal">
+                <button type="button" class="btn btn-danger action-btn btn-modal" data-id="<?= $row['id'] ?>">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-delete" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         <path d="M6 7V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -154,8 +162,7 @@ $rol = $row['idrol'];
                 </td>
                 </tr>
 
-
-                <!-- modal eliminar -->
+                        <!-- modal eliminar -->
 
                     <div class="modal">
                     <div class="modal-content">
@@ -178,7 +185,38 @@ $rol = $row['idrol'];
                     </div>
                     </div>
 
+                 <!-- Modal de información -->
+                    <div class="modal" data-id="<?= $row['id'] ?>">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <span class="btn-close">
+                            <!-- SVG para la X -->
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                            </svg>
+                        </span>
+                        <h4>Información del Registro</h4>
+                        </div>
+                        <div class="modal-txt">
+                        <!-- Aquí puedes poner tu PHP o contenido dinámico -->
+                        <div class="modal-txt">
+                            <!-- Aquí puedes poner la información que deseas mostrar -->
+                            <p><strong>Propietario del equipo:</strong> <?php echo $row['propietario']?></p>
+                            <p><strong>Descripción del problema:</strong> <?php echo $row['descripcion']?></p>
+                            <p><strong>Gravedad:</strong> <?php echo $row['gravedad']?></p>
+                            <p><strong>Técnico encargado:</strong> <?php echo $row['tecnico']?></p>
+                            <p><strong>Departamento encargado:</strong> <?php echo $row['departamento']?></p>
+                        </div>
+                        </div>
+                        <div class="modal-actions">
+                        <button type="button" class="btn-off btn btn-secondary">Cerrar</button>
+                        </div>
+                    </div>
+                    </div>
 
+          
+
+             
 
 
 
@@ -194,8 +232,67 @@ $rol = $row['idrol'];
             <?php endif; ?>
         </div>
 
-    
+
+        
+        
+
+
     </div>
+
+    <script>
+    const btnsModal = document.querySelectorAll(".btn-modal");
+    const modals = document.querySelectorAll(".modal");
+    const btnsClose = document.querySelectorAll(".btn-close");
+    const btnsOff = document.querySelectorAll(".btn-off");
+
+    const btnsInfo = document.querySelectorAll(".btn-info");
+    const infoModals = document.querySelectorAll(".modal[data-id]");
+
+    
+    btnsModal.forEach((btn, index) => {
+        btn.addEventListener("click", function() {
+            modals[index].classList.add("show");
+        });
+    });
+
+    btnsInfo.forEach((btn) => {
+        btn.addEventListener("click", function() {
+            const id = btn.getAttribute("data-id");
+            const modal = document.querySelector(`.modal[data-id='${id}']`);
+            if (modal) {
+                modal.classList.add("show");
+            }
+        });
+    });
+
+    btnsClose.forEach((btn) => {
+        btn.addEventListener("click", function() {
+            const modal = btn.closest(".modal");
+            if (modal) {
+                modal.classList.remove("show");
+            }
+        });
+    });
+
+    btnsOff.forEach((btn) => {
+        btn.addEventListener("click", function() {
+            const modal = btn.closest(".modal");
+            if (modal) {
+                modal.classList.remove("show");
+            }
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        modals.forEach((modal) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    });
+
+
+    </script>
 
 </body>
 </html>

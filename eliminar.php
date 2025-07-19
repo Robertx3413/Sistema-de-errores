@@ -1,11 +1,11 @@
 <?php
-include 'connect.php';
+include '../connect.php';
 session_start();
 $usuario = $_SESSION['usuario'];
 if (isset($_GET['eliminarid'])) {
     $id = $_GET['eliminarid'];
 
-$sql = "SELECT * FROM registro WHERE id = ?";
+$sql = "SELECT * FROM equiposreparados WHERE id = ?";
 $stmt = mysqli_prepare($connect, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -23,21 +23,16 @@ $gravedad = htmlspecialchars($row['gravedad']);
 
 
   
-  $sqlinsert = "INSERT INTO equiposreparados (titulo_error, descripcion, propietario, categoria, tecnico, departamento,  gravedad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  $stmt2 = mysqli_prepare($connect, $sqlinsert);
-  mysqli_stmt_bind_param($stmt2, "ssssssss", $titulo, $descripcion, $propietario, $categoria, $tecnico, $departamento,  $gravedad, $fecha);
-  if (mysqli_stmt_execute($stmt2)) {
   
-      $sql2 = "DELETE FROM registro WHERE id = ?";
+      $sql2 = "DELETE FROM equiposreparados WHERE id = ?";
       $stmt3 = mysqli_prepare($connect, $sql2);
       mysqli_stmt_bind_param($stmt3, "i", $id);
       if (mysqli_stmt_execute($stmt3)) {
-          header("Location: main.php");
+          header("Location: dashboard.php");
           exit();
       } else {
           die('Error al eliminar: ' . mysqli_error($connect));
       }
-    }
 
   
 }
