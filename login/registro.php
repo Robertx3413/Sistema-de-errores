@@ -84,13 +84,22 @@ if (isset($_POST['registrar'])) {
 
         <div class="container-side shapedividers_com-3746">
             <div class="container-side-text">
-                <h2>Crea una cuenta en nuestro Sistema</h2>
-                <p>Regístrate para acceder a todas las funcionalidades.</p>
+                <h2> Sistema de Gestión de Fallas PC</h2>
+                <div class="side-text">
+                    <p>
+                        Solución rápida y organizada para reportar y resolver problemas de computadoras.
+                    </p>
+                    <ul>
+                        <li>✅ Registro sencillo de fallas de hardware y software.</li>
+                        <li>✅ Seguimiento en tiempo real de solicitudes.</li>
+                        <li>✅ Respuesta ágil con técnicos asignados..</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         
-        <form method="post" class="form-container" id="form">
+        <form method="post" class="form-container" id="form" style="height: 100%;">
             
         <div class="form-header">
                 <div class="logo-header">
@@ -99,8 +108,8 @@ if (isset($_POST['registrar'])) {
                     <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </div>
-            <h2>Regístrate</h2>
-            <p>Crea una cuenta para acceder al sistema.</p>
+            <h2>Bienvenido</h2>
+            <p>Registrate para acceder al sistema.</p>
         </div>
 
         <div class="form">
@@ -150,11 +159,13 @@ if (isset($_POST['registrar'])) {
                 <?php endif; ?>
             </div>
 
+            
+
             <button type="submit" name="registrar" class="btn btn-primary">Registrar</button>
               <div class="form-group ">
                 <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
             </div>
-        </form>
+        </div>
         </div>
     
         <!-- Footer con información de creadores -->

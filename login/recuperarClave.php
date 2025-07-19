@@ -103,15 +103,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container-login">
         <div class="container-side shapedividers_com-3746">
             <div class="container-side-text">
-                <h2>Recuperar Contraseña</h2>
-                <p>Ingrese su nombre de usuario para recuperar su contraseña.</p>
+                <h2> Sistema de Gestión de Fallas PC</h2>
+                <div class="side-text">
+                    <p>
+                        Solución rápida y organizada para reportar y resolver problemas de computadoras.
+                    </p>
+                    <ul>
+                        <li>✅ Registro sencillo de fallas de hardware y software.</li>
+                        <li>✅ Seguimiento en tiempo real de solicitudes.</li>
+                        <li>✅ Respuesta ágil con técnicos asignados..</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <?php if ($show_form === 'username'): ?>
             <form method="post" class="form-container" id="form-username">
-                <div class="form-header">
-                    <h2>Ingrese Nombre de Usuario</h2>
+                 <div class="form-header">
+                        <div class="logo-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                    <h2>Bienvenido</h2>
+                    <p>Registrate para acceder al sistema.</p>
                 </div>
                 <div class="form">
                     <?php if (!empty($error_usuario)): ?>
