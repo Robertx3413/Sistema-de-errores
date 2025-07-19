@@ -158,7 +158,7 @@ if(isset($_POST['registrar'])) {
                 </div>
 
                 <div class="form-group">
-                    <label for="Department" class="form-label">Departamento *</label>
+                    <label for="Department" class="form-label">Equipos *</label>
                     <input type="text" id="Department" name="Department" class="form-input" placeholder="Departamento">
                 </div>
 
