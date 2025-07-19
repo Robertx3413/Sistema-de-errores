@@ -91,7 +91,7 @@ $rol = $row['idrol'];
 
         <div class="table-container">
             <?php
-            $sql = "SELECT * FROM `usuario`";
+            $sql = "SELECT * FROM `usuario` Where idrol = 2 ";
             $result = mysqli_query($connect, $sql);
            
             if (mysqli_num_rows($result) > 0): ?>
@@ -99,7 +99,6 @@ $rol = $row['idrol'];
             <thead>
             <tr>
             <th>Nombre de Usuario</th>
-            <th>Pregunta de Seguridad</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -107,7 +106,6 @@ $rol = $row['idrol'];
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
             <tr>
             <td><?= htmlspecialchars($row['usuario']) ?></td>
-            <td><?= htmlspecialchars($row['preguntaseguridad']) ?></td>
             <td>
             <div class="action-buttons">
 
