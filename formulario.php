@@ -155,6 +155,8 @@ if(isset($_POST['registrar'])) {
                     <label for="errorTitle" class="form-label">Título del Error *</label>
                     <input type="text" id="errorTitle" name="errorTitle" class="form-input" placeholder="Ej: Pantalla azul al iniciar Windows">
                 </div>  
+
+                    <div class="error alert-danger" id="error-general"></div>
                 
                 <div class="form-group">
                     <label for="errorCategory" class="form-label">Categoría *</label>
@@ -216,29 +218,75 @@ if(isset($_POST['registrar'])) {
     </div>
 
     <script>
-        // Validación básica del lado del cliente
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const title = document.getElementById('errorTitle').value.trim();
-            const description = document.getElementById('errorDescription').value.trim();
-            const category = document.getElementById('errorCategory').value;
-            const Owner = document.getElementById('Owner').value.trim();
-            const Technical = document.getElementById('Technical').value.trim();
-            const Department = document.getElementById('Department').value.trim();
-            const date = document.getElementById('date').value.trim();
-            const severidad = document.getElementById('severidad').value.trim();
-            
-            if(!title || !description || !category || !Owner || !Technical || !Department || !date || !severidad) {
-                e.preventDefault();
-                alert('Por favor complete todos los campos obligatorios (*)');
-            }
+        
+    const form = document.querySelector('form');
+    const errorTitle = document.getElementById('errorTitle');
+    const errorCategory = document.getElementById('errorCategory');
+    const errorDescription = document.getElementById('errorDescription');
+    const owner = document.getElementById('Owner');
+    const technical = document.getElementById('Technical');
+    const department = document.getElementById('Department');
+    const date = document.getElementById('date');
+    const severidad = document.getElementById('severidad');
+    const errorGeneral = document.getElementById('error-general');
 
+    form.addEventListener('submit', (e) => {
+        let messages = [];
 
-            if (description.length < 20) {
-                e.preventDefault();
-                alert('La descripción debe tener al menos 20 caracteres');
-                return false;
-            }
-        });
+        // Regex patterns
+        const titlePattern = /^[\w\sáéíóúÁÉÍÓÚüÜñÑ.,:;()\-]{3,25}$/i;
+        const ownerPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
+        const technicalPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
+        const departmentPattern = /^.{3,25}$/;
+
+        if (errorTitle.value.trim() === '') {
+            messages.push('El título del error es requerido');
+        } else if (!titlePattern.test(errorTitle.value.trim())) {
+            messages.push('El título debe tener entre 3 y 25 caracteres y solo caracteres válidos');
+        }
+
+        if (!errorCategory.value) {
+            messages.push('La categoría es requerida');
+        }
+
+        if (errorDescription.value.trim() === '') {
+            messages.push('La descripción es requerida');
+        }
+
+        if (owner.value.trim() === '') {
+            messages.push('El nombre del usuario del equipo es requerido');
+        } else if (!ownerPattern.test(owner.value.trim())) {
+            messages.push('El nombre del usuario debe tener entre 3 y 25 letras');
+        }
+
+        if (technical.value.trim() === '') {
+            messages.push('El técnico a cargo es requerido');
+        } else if (!technicalPattern.test(technical.value.trim())) {
+            messages.push('El nombre del técnico debe tener entre 3 y 25 letras');
+        }
+
+        if (department.value.trim() === '') {
+            messages.push('El campo de equipos es requerido');
+        } else if (!departmentPattern.test(department.value.trim())) {
+            messages.push('El campo de equipos debe tener entre 3 y 25 caracteres');
+        }
+
+        if (!date.value) {
+            messages.push('La fecha de reparación es requerida');
+        }
+
+        if (!severidad.value) {
+            messages.push('La gravedad del problema es requerida');
+        }
+
+        if (messages.length > 0) {
+            e.preventDefault();
+            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
+            errorGeneral.style.display = 'block';
+        } else {
+            errorGeneral.style.display = 'none';
+        }
+    });
     </script>
 </body>
 </html>
