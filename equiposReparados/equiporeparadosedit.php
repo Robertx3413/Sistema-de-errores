@@ -16,6 +16,14 @@ if (!$id) {
     exit();
 }
 
+$sql = "SELECT * FROM usuario WHERE usuario = ?";
+$stmt = mysqli_prepare($connect, $sql);
+mysqli_stmt_bind_param($stmt, "s", $usuario);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$row = mysqli_fetch_assoc($result);
+$rol = $row['idrol'];
+
 // Consulta preparada para obtener datos
 $sql = "SELECT * FROM equiposreparados WHERE id = ?";
 $stmt = mysqli_prepare($connect, $sql);
@@ -92,14 +100,6 @@ mysqli_stmt_close($stmt);
                             </g>
                         </svg> Volver
                     </a>
-
-
-                    <a href="formulario.php" class="btn btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg> Agregar
-                    </a>
-
                    
                     
                 </div>
@@ -119,8 +119,10 @@ mysqli_stmt_close($stmt);
                            
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="../dashboard.php">
+                    <?php
+                    if ($rol === 1){
+                        echo ' <li class="nav-item">
+                            <a href="dashboard.php">
                                 <!-- Improved Dashboard SVG: simple, bold, accessible -->
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                     <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
@@ -128,10 +130,24 @@ mysqli_stmt_close($stmt);
                                     <path d="M4 17C4 16.4477 4.44772 16 5 16H9C9.55228 16 10 16.4477 10 17V19C10 19.5523 9.55228 20 9 20H5C4.44772 20 4 19.5523 4 19V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                     <path d="M13 5C13 4.44772 13.4477 4 14 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H14C13.4477 8 13 7.55228 13 7V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                 </svg>
-                                <span>Dashboard</span>
+                                <span>Equipos reparados</span>
                             </a>
                         </li>
-                    </ul>
+                        <li class="nav-item">
+                            <a href="../usuarios/usuarios.php">
+                                <!-- Improved Dashboard SVG: simple, bold, accessible -->
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                                    <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M4 5C4 4.44772 4.44772 4 5 4H9C9.55228 4 10 4.44772 10 5V12C10 12.5523 9.55228 13 9 13H5C4.44772 13 4 12.5523 4 12V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M4 17C4 16.4477 4.44772 16 5 16H9C9.55228 16 10 16.4477 10 17V19C10 19.5523 9.55228 20 9 20H5C4.44772 20 4 19.5523 4 19V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M13 5C13 4.44772 13.4477 4 14 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H14C13.4477 8 13 7.55228 13 7V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                </svg>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+                    </ul>';
+                    }  
+                    ?>
                     <div class="container-off">
                             <a href="../login/cerrar_sesion.php" class="btn btn-danger ">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
@@ -144,9 +160,9 @@ mysqli_stmt_close($stmt);
                 </nav>
             </header>
             
-        <div class="form-container">
-            <div class="header">
-                <h1>
+        <div class="secondary-form-container">
+            <div class="edit-group">
+                <h1 class="edit-group-title">
                     <i class="fas fa-edit"></i> Editar Registro
                     <span class="badge">ID: <?= $id ?></span>
                 </h1>
@@ -158,17 +174,21 @@ mysqli_stmt_close($stmt);
                 </div>
             <?php endif; ?>
 
-            <form action="" method="POST">
+            <form action="" method="POST" class="form " id="form">
                 <div class="form-group">
-                    <label for="errorTitle">Título del Error *</label>
+                    <label for="errorTitle" class="form-label">Título del Error *</label>
                     <input type="text" id="errorTitle" name="errorTitle" 
                            value="<?= $titulo_error ?>" 
-                           placeholder="Ej: Pantalla azul al iniciar Windows" required>
+                           placeholder="Ej: Pantalla azul al iniciar Windows" >
                 </div>
+
+
+                                <div class="error alert-danger" id="error-general"></div>
+
 
                  <div class="form-group">
                     <label for="errorCategory">Categoría *</label>
-                    <select id="errorCategory" name="errorCategory" required>
+                    <select id="errorCategory" name="errorCategory" >
                         <option value="" disabled>Seleccione una categoría</option>
                         <option value="Hardware" <?= $categoria == 'Hardware' ? 'selected' : '' ?>>Hardware</option>
                         <option value="Software" <?= $categoria == 'Software' ? 'selected' : '' ?>>Software</option>
@@ -183,7 +203,7 @@ mysqli_stmt_close($stmt);
                     <label for="errorDescription">Descripción Detallada *</label>
                     <textarea id="errorDescription" name="errorDescription" 
                               placeholder="Describa el error con el mayor detalle posible..." 
-                              required><?= $descripcion ?></textarea>
+                              ><?= $descripcion ?></textarea>
                 </div>
                 
                
@@ -250,61 +270,98 @@ mysqli_stmt_close($stmt);
     </div>
 
     <script>
-    const btnsModal = document.querySelectorAll(".btn-modal");
-    const modals = document.querySelectorAll(".modal");
-    const btnsClose = document.querySelectorAll(".btn-close");
-    const btnsOff = document.querySelectorAll(".btn-off");
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnModal = document.querySelector(".btn-modal");
+        const modal = document.querySelector(".modal");
+        const btnClose = document.querySelector(".btn-close");
+        const btnOff = document.querySelector(".btn-off");
+    const form = document.querySelector('form');
+    const errorTitle = document.getElementById('errorTitle');
+    const errorCategory = document.getElementById('errorCategory');
+    const errorDescription = document.getElementById('errorDescription');
+    const owner = document.getElementById('UsuarioEquipo');
+    const technical = document.getElementById('tecnicoReparacion');
+    const department = document.getElementById('departamento');
+    const date = document.getElementById('fechaReparacion');
+    const severidad = document.getElementById('severidad');
+    const errorGeneral = document.getElementById('error-general');
 
-    btnsModal.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.add("show");
+
+        // Modal logic
+        btnModal.addEventListener("click", function() {
+            modal.classList.add("show");
         });
-    });
-
-    btnsClose.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
+        btnClose.addEventListener("click", function() {
+            modal.classList.remove("show");
         });
-    });
-
-    btnsOff.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
+        btnOff.addEventListener("click", function() {
+            modal.classList.remove("show");
         });
-    });
-
-
-
-    document.addEventListener('click', function(event) {
-        modals.forEach((modal) => {
+        document.addEventListener('click', function(event) {
             if (event.target === modal) {
                 modal.classList.remove('show');
             }
         });
-    });
 
-         document.querySelector('form').addEventListener('submit', function(e) {
-            const title = document.getElementById('errorTitle').value.trim();
-            const description = document.getElementById('errorDescription').value.trim();
-            const category = document.getElementById('errorCategory').value;
-            const UsuarioEquipo = document.getElementById('UsuarioEquipo').value.trim();
-            const tecnicoReparacion = document.getElementById('tecnicoReparacion').value.trim();
-            const departamento = document.getElementById('departamento').value.trim();
-            const fechaReparacion = document.getElementById('fechaReparacion').value.trim();
-            const severidad = document.getElementById('severidad').value.trim();
-        
-            
-            if(!title || !description || !category || !UsuarioEquipo || !tecnicoReparacion || !fechaReparacion || !severidad || !departamento) {
-                e.preventDefault();
-                alert('Por favor complete todos los campos obligatorios (*)');
-            }
-            
-            if (description.length < 20) {
-                e.preventDefault();
-                alert('La descripción debe tener al menos 20 caracteres');
-                return false;
-            }
-        });
+        // Validation
+        form.addEventListener('submit', (e) => {
+        let messages = [];
+
+        // Regex patterns
+        const titlePattern = /^[\w\sáéíóúÁÉÍÓÚüÜñÑ.,:;()\-]{3,25}$/i;
+        const ownerPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
+        const technicalPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
+        const departmentPattern = /^.{3,25}$/;
+
+        if (errorTitle.value.trim() === '') {
+            messages.push('El título del error es requerido');
+        } else if (!titlePattern.test(errorTitle.value.trim())) {
+            messages.push('El título debe tener entre 3 y 25 caracteres y solo caracteres válidos');
+        }
+
+        if (!errorCategory.value) {
+            messages.push('La categoría es requerida');
+        }
+
+        if (errorDescription.value.trim() === '') {
+            messages.push('La descripción es requerida');
+        }
+
+        if (owner.value.trim() === '') {
+            messages.push('El nombre del usuario del equipo es requerido');
+        } else if (!ownerPattern.test(owner.value.trim())) {
+            messages.push('El nombre del usuario debe tener entre 3 y 25 letras');
+        }
+
+        if (technical.value.trim() === '') {
+            messages.push('El técnico a cargo es requerido');
+        } else if (!technicalPattern.test(technical.value.trim())) {
+            messages.push('El nombre del técnico debe tener entre 3 y 25 letras');
+        }
+
+        if (department.value.trim() === '') {
+            messages.push('El campo de equipos es requerido');
+        } else if (!departmentPattern.test(department.value.trim())) {
+            messages.push('El campo de equipos debe tener entre 3 y 25 caracteres');
+        }
+
+        if (!date.value) {
+            messages.push('La fecha de reparación es requerida');
+        }
+
+        if (!severidad.value) {
+            messages.push('La gravedad del problema es requerida');
+        }
+
+        if (messages.length > 0) {
+            e.preventDefault();
+            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
+            errorGeneral.style.display = 'block';
+        } else {
+            errorGeneral.style.display = 'none';
+        }
+        })
+    });
     </script>
 </body>
 </html>

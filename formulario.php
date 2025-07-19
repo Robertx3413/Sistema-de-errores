@@ -151,6 +151,7 @@ if(isset($_POST['registrar'])) {
             
             <div class="secondary-form-container ">
             <form action="#" method="POST" class="form ">
+                
                 <div class="form-group">
                     <label for="errorTitle" class="form-label">Título del Error *</label>
                     <input type="text" id="errorTitle" name="errorTitle" class="form-input" placeholder="Ej: Pantalla azul al iniciar Windows">

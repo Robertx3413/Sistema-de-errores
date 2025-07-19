@@ -93,13 +93,6 @@ mysqli_stmt_close($stmt);
                         </svg> Volver
                     </a>
 
-
-                    <a href="formulario.php" class="btn btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg> Agregar
-                    </a>
-
                    
                     
                 </div>
@@ -144,27 +137,31 @@ mysqli_stmt_close($stmt);
                 </nav>
             </header>
             
-        <div class="form-container">
-            <div class="header">
-                <h1>
+        <div class="secondary-form-container ">
+            <div class="edit-group">
+                <h1 class="edit-group-title">
                     <i class="fas fa-edit"></i> Editar Registro
                     <span class="badge">ID: <?= $id ?></span>
                 </h1>
             </div>
 
-            <?php if(isset($error_message)): ?>
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle"></i> <?= $error_message ?>
-                </div>
-            <?php endif; ?>
+            
 
-            <form action="" method="POST">
+            <form action="" method="POST" class="form" id="form">
                 <div class="form-group">
-                    <label for="errorTitle">Título del Error *</label>
+                    <label for="errorTitle" >Título del Error *</label>
                     <input type="text" id="errorTitle" name="errorTitle" 
                            value="<?= $titulo_error ?>" 
                            placeholder="Ej: Pantalla azul al iniciar Windows" required>
                 </div>
+
+                <?php if(isset($error_message)): ?>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> <?= $error_message ?>
+                </div>
+            <?php endif; ?>
+                <div class="error alert-danger" id="error-general"></div>
+
 
                  <div class="form-group">
                     <label for="errorCategory">Categoría *</label>
@@ -250,61 +247,98 @@ mysqli_stmt_close($stmt);
     </div>
 
     <script>
-    const btnsModal = document.querySelectorAll(".btn-modal");
-    const modals = document.querySelectorAll(".modal");
-    const btnsClose = document.querySelectorAll(".btn-close");
-    const btnsOff = document.querySelectorAll(".btn-off");
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnModal = document.querySelector(".btn-modal");
+        const modal = document.querySelector(".modal");
+        const btnClose = document.querySelector(".btn-close");
+        const btnOff = document.querySelector(".btn-off");
+    const form = document.querySelector('form');
+    const errorTitle = document.getElementById('errorTitle');
+    const errorCategory = document.getElementById('errorCategory');
+    const errorDescription = document.getElementById('errorDescription');
+    const owner = document.getElementById('UsuarioEquipo');
+    const technical = document.getElementById('tecnicoReparacion');
+    const department = document.getElementById('departamento');
+    const date = document.getElementById('fechaReparacion');
+    const severidad = document.getElementById('severidad');
+    const errorGeneral = document.getElementById('error-general');
 
-    btnsModal.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.add("show");
+
+        // Modal logic
+        btnModal.addEventListener("click", function() {
+            modal.classList.add("show");
         });
-    });
-
-    btnsClose.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
+        btnClose.addEventListener("click", function() {
+            modal.classList.remove("show");
         });
-    });
-
-    btnsOff.forEach((btn, index) => {
-        btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
+        btnOff.addEventListener("click", function() {
+            modal.classList.remove("show");
         });
-    });
-
-
-
-    document.addEventListener('click', function(event) {
-        modals.forEach((modal) => {
+        document.addEventListener('click', function(event) {
             if (event.target === modal) {
                 modal.classList.remove('show');
             }
         });
-    });
 
-         document.querySelector('form').addEventListener('submit', function(e) {
-            const title = document.getElementById('errorTitle').value.trim();
-            const description = document.getElementById('errorDescription').value.trim();
-            const category = document.getElementById('errorCategory').value;
-            const UsuarioEquipo = document.getElementById('UsuarioEquipo').value.trim();
-            const tecnicoReparacion = document.getElementById('tecnicoReparacion').value.trim();
-            const departamento = document.getElementById('departamento').value.trim();
-            const fechaReparacion = document.getElementById('fechaReparacion').value.trim();
-            const severidad = document.getElementById('severidad').value.trim();
-        
-            
-            if(!title || !description || !category || !UsuarioEquipo || !tecnicoReparacion || !fechaReparacion || !severidad || !departamento) {
-                e.preventDefault();
-                alert('Por favor complete todos los campos obligatorios (*)');
-            }
-            
-            if (description.length < 20) {
-                e.preventDefault();
-                alert('La descripción debe tener al menos 20 caracteres');
-                return false;
-            }
-        });
+        // Validation
+        form.addEventListener('submit', (e) => {
+        let messages = [];
+
+        // Regex patterns
+        const titlePattern = /^[\w\sáéíóúÁÉÍÓÚüÜñÑ.,:;()\-]{3,25}$/i;
+        const ownerPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
+        const technicalPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
+        const departmentPattern = /^.{3,25}$/;
+
+        if (errorTitle.value.trim() === '') {
+            messages.push('El título del error es requerido');
+        } else if (!titlePattern.test(errorTitle.value.trim())) {
+            messages.push('El título debe tener entre 3 y 25 caracteres y solo caracteres válidos');
+        }
+
+        if (!errorCategory.value) {
+            messages.push('La categoría es requerida');
+        }
+
+        if (errorDescription.value.trim() === '') {
+            messages.push('La descripción es requerida');
+        }
+
+        if (owner.value.trim() === '') {
+            messages.push('El nombre del usuario del equipo es requerido');
+        } else if (!ownerPattern.test(owner.value.trim())) {
+            messages.push('El nombre del usuario debe tener entre 3 y 25 letras');
+        }
+
+        if (technical.value.trim() === '') {
+            messages.push('El técnico a cargo es requerido');
+        } else if (!technicalPattern.test(technical.value.trim())) {
+            messages.push('El nombre del técnico debe tener entre 3 y 25 letras');
+        }
+
+        if (department.value.trim() === '') {
+            messages.push('El campo de equipos es requerido');
+        } else if (!departmentPattern.test(department.value.trim())) {
+            messages.push('El campo de equipos debe tener entre 3 y 25 caracteres');
+        }
+
+        if (!date.value) {
+            messages.push('La fecha de reparación es requerida');
+        }
+
+        if (!severidad.value) {
+            messages.push('La gravedad del problema es requerida');
+        }
+
+        if (messages.length > 0) {
+            e.preventDefault();
+            errorGeneral.innerText = messages[0]; // Muestra solo el primer mensaje de error
+            errorGeneral.style.display = 'block';
+        } else {
+            errorGeneral.style.display = 'none';
+        }
+        })
+    });
     </script>
 </body>
 </html>
