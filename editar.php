@@ -199,7 +199,7 @@ mysqli_stmt_close($stmt);
                 </div>
 
                 <div class="form-group">
-                    <label for="departamento" class="form-label">Departamento</label>
+                    <label for="departamento" class="form-label">Equipos</label>
                     <input type="text" id="departamento" name="departamento" class="form-input" placeholder="Departamento" value="<?php echo isset($departamento) ? htmlspecialchars($departamento) : ''; ?>">
                 </div>
 

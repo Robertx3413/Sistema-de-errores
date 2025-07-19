@@ -188,8 +188,7 @@ $rol = $row['idrol'];
                             <p><strong>Descripción del problema:</strong> <?php echo $row['descripcion']?></p>
                             <p><strong>Gravedad:</strong> <?php echo $row['gravedad']?></p>
                             <p><strong>Técnico encargado:</strong> <?php echo $row['tecnico']?></p>
-                            <p><strong>Lugar de registro:</strong> <?php echo $row['registroLugar']?></p>
-                            <p><strong>Departamento encargado:</strong> <?php echo $row['departamento']?></p>
+                            <p><strong>Equipo encargado:</strong> <?php echo $row['departamento']?></p>
                         </div>
                         </div>
                         <div class="modal-actions">

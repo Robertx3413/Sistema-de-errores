@@ -159,7 +159,7 @@ mysqli_stmt_close($stmt);
                 <div class="info-item"><span class="info-label">N° de Registro:</span> <?= $id ?></div>
                 <div class="info-item"><span class="info-label">Propietario:</span> <?= $propietario ?></div>
                 <div class="info-item"><span class="info-label">Tecnico encargado:</span> <?= $tecnico ?></div>
-                <div class="info-item"><span class="info-label">Departamento:</span> <?= $departamento ?></div>
+                <div class="info-item"><span class="info-label">Equipos:</span> <?= $departamento ?></div>
                 <div class="info-item"><span class="info-label">Fecha:</span> <?= $fecha ?></div>
             </div>
             <div>
