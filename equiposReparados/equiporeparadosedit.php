@@ -308,7 +308,7 @@ mysqli_stmt_close($stmt);
         let messages = [];
 
         // Regex patterns
-        const titlePattern = /^[\w\sáéíóúÁÉÍÓÚüÜñÑ.,:;()\-]{3,25}$/i;
+        const titlePattern = /^[\w\sáéíóúÁÉÍÓÚüÜñÑ.,:;()\-]{3,50}$/i;
         const ownerPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
         const technicalPattern = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]{3,25}$/;
         const departmentPattern = /^.{3,25}$/;
