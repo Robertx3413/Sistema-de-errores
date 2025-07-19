@@ -155,13 +155,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Nombre de Usuario</label>
                         
                     </div>
-                    
-                    <div class="form-group ">
-                <span>¿No tienes una cuenta? <a class="link" href="registro.php">Regístrate Aquí</a></span>
-            </div>
-            
-            <div class="form-group ">
-                <span>¿Olvidaste la contraseña? <a class="link" href="recuperarClave.php">Ingresa Aquí</a></span>
+
+                                  <div class="form-group ">
+                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
             </div>
                         
             <button type="submit" name="submit_username" class="btn btn-primary">Enviar</button>
@@ -197,12 +193,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="hidden" name="security_answer" value="<?php echo htmlspecialchars($security_answer); ?>" />
             <input type="hidden" name="idrol" value="<?php echo htmlspecialchars($idrol); ?>" />
             
-            <div class="form-group ">
-                <span>¿No tienes una cuenta? <a class="link" href="registro.php">Regístrate Aquí</a></span>
-            </div>
-            
-            <div class="form-group ">
-                <span>¿Olvidaste la contraseña? <a class="link" href="recuperarClave.php">Ingresa Aquí</a></span>
+                                      <div class="form-group ">
+                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
             </div>
             
             <button type="submit" name="submit_newpass" class="btn btn-primary">Actualizar Contraseña</button>
