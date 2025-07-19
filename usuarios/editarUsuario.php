@@ -1,11 +1,9 @@
 <?php
 include "../connect.php";
 session_start();
-
-// Verificación de sesión mejorada
 $usuario = $_SESSION['usuario'] ?? null;
-if ($usuario !== 'admin') {
-    header('Location: ../login/index.php');
+if (!$usuario) {
+    header('Location: login/index.php');
     exit();
 }
 
@@ -15,6 +13,15 @@ if (!$id) {
     header('Location: ../main.php');
     exit();
 }
+
+
+$sql = "SELECT * FROM usuario WHERE usuario = ?";
+$stmt = mysqli_prepare($connect, $sql);
+mysqli_stmt_bind_param($stmt, "s", $usuario);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$row = mysqli_fetch_assoc($result);
+$rol = $row['idrol'];
 
 $sql = "SELECT * FROM usuario WHERE id = ?";
 $stmt = mysqli_prepare($connect, $sql);
@@ -72,21 +79,13 @@ mysqli_stmt_close($stmt);
                 </h1>
                 <div class="btn-group">
 
-                    <a href="http://localhost/dashboard/sistema/main.php" class="btn btn-secondary">
+                    <a href="usuarios.php" class="btn btn-secondary">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-svg" aria-hidden="true" focusable="false">
                             <g>
                                 <path d="M17 16L13 12L17 8M11 16L7 12L11 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                             </g>
                         </svg> Volver
                     </a>
-
-
-                    <a href="formulario.php" class="btn btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg> Agregar
-                    </a>
-
                    
                     
                 </div>
@@ -94,7 +93,7 @@ mysqli_stmt_close($stmt);
                 <nav class="nav">
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a href="main.php">
+                            <a href="../main.php">
                                 <!-- Improved Home SVG: clearer, more modern, accessible -->
 
                                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-nav" aria-hidden="true" focusable="false">
@@ -106,8 +105,10 @@ mysqli_stmt_close($stmt);
                            
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="dashboard.php">
+                        <?php
+                    if ($rol === 1){
+                        echo ' <li class="nav-item">
+                            <a href="../equiposReparados\dashboard.php">
                                 <!-- Improved Dashboard SVG: simple, bold, accessible -->
                                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                                     <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
@@ -115,9 +116,24 @@ mysqli_stmt_close($stmt);
                                     <path d="M4 17C4 16.4477 4.44772 16 5 16H9C9.55228 16 10 16.4477 10 17V19C10 19.5523 9.55228 20 9 20H5C4.44772 20 4 19.5523 4 19V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                     <path d="M13 5C13 4.44772 13.4477 4 14 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H14C13.4477 8 13 7.55228 13 7V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                 </svg>
-                                <span>Dashboard</span>
+                                <span>Equipos reparados</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="../usuarios/usuarios.php">
+                                <!-- Improved Dashboard SVG: simple, bold, accessible -->
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                                    <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M4 5C4 4.44772 4.44772 4 5 4H9C9.55228 4 10 4.44772 10 5V12C10 12.5523 9.55228 13 9 13H5C4.44772 13 4 12.5523 4 12V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M4 17C4 16.4477 4.44772 16 5 16H9C9.55228 16 10 16.4477 10 17V19C10 19.5523 9.55228 20 9 20H5C4.44772 20 4 19.5523 4 19V17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                    <path d="M13 5C13 4.44772 13.4477 4 14 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H14C13.4477 8 13 7.55228 13 7V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                </svg>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>
+                    </ul>';
+                    }  
+                    ?>
                     </ul>
                     <div class="container-off">
                             <a href="login/cerrar_sesion.php" class="btn btn-danger ">
@@ -132,8 +148,8 @@ mysqli_stmt_close($stmt);
             </header>
             
         <div class="form-container">
-            <div class="header">
-                <h1>
+            <div class="edit-group">
+                <h1 class="edit-group-title">
                     <i class="fas fa-edit"></i> Editar Registro
                     <span class="badge">ID: <?= $id ?></span>
                 </h1>
@@ -145,7 +161,7 @@ mysqli_stmt_close($stmt);
                 </div>
             <?php endif; ?>
 
-<form action="" method="POST">
+<form action="" method="POST" class="form">
     <div class="form-group">
         <label for="usuario">Nombre de Usuario *</label>
         <input type="text" id="usuario" name="usuario" 

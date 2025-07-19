@@ -93,7 +93,7 @@ mysqli_stmt_close($stmt);
                 </h1>
                 <div class="btn-group">
 
-                    <a href="http://localhost/dashboard/sistema/main.php" class="btn btn-secondary">
+                    <a href="dashboard.php" class="btn btn-secondary">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-svg" aria-hidden="true" focusable="false">
                             <g>
                                 <path d="M17 16L13 12L17 8M11 16L7 12L11 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
