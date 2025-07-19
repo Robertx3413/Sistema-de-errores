@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Recuperar Contraseña</title>
-    <link rel="stylesheet" href="../styles.css" />
+        <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
     <div class="container-login">
@@ -119,16 +119,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <?php if ($show_form === 'username'): ?>
             <form method="post" class="form-container" id="form-username">
-                 <div class="form-header">
-                        <div class="logo-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                        </div>
-                    <h2>Bienvenido</h2>
-                    <p>Registrate para acceder al sistema.</p>
+        <div class="form-header">
+                <div class="logo-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
                 </div>
+            <h2>Recuperar</h2>
+            <p>Agrega tu nombre de usuario.</p>
+        </div>
+
                 <div class="form">
                     <?php if (!empty($error_usuario)): ?>
                         <div class="alert alert-danger"><?php echo $error_usuario; ?></div>
@@ -138,7 +139,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" name="usuario" id="usuario" placeholder="Ingrese su nombre de usuario" 
                             value="<?php echo htmlspecialchars($usuario); ?>" />
                     </div>
-                    <button type="submit" name="submit_username" class="btn btn-primary">Enviar</button>
+                    
+                    
+                    <div class="hidden" >
+                        <label>Nombre de Usuario</label>
+                        
+                    </div>
+
+                    <div class="hidden" >
+                        <label>Nombre de Usuario</label>
+                        
+                    </div>
+
+                    <div class="hidden" >
+                        <label>Nombre de Usuario</label>
+                        
+                    </div>
+                    
+                    <div class="form-group ">
+                <span>¿No tienes una cuenta? <a class="link" href="registro.php">Regístrate Aquí</a></span>
+            </div>
+            
+            <div class="form-group ">
+                <span>¿Olvidaste la contraseña? <a class="link" href="recuperarClave.php">Ingresa Aquí</a></span>
+            </div>
+                        
+            <button type="submit" name="submit_username" class="btn btn-primary">Enviar</button>
+                    </div>
                 </div>
             </form>
         <?php elseif ($show_form === 'reset'): ?>
@@ -169,6 +196,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="hidden" name="security_question" value="<?php echo htmlspecialchars($security_question); ?>" />
             <input type="hidden" name="security_answer" value="<?php echo htmlspecialchars($security_answer); ?>" />
             <input type="hidden" name="idrol" value="<?php echo htmlspecialchars($idrol); ?>" />
+            
+            <div class="form-group ">
+                <span>¿No tienes una cuenta? <a class="link" href="registro.php">Regístrate Aquí</a></span>
+            </div>
+            
+            <div class="form-group ">
+                <span>¿Olvidaste la contraseña? <a class="link" href="recuperarClave.php">Ingresa Aquí</a></span>
+            </div>
+            
             <button type="submit" name="submit_newpass" class="btn btn-primary">Actualizar Contraseña</button>
                 </div>
             </form>
