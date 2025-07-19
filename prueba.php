@@ -3,7 +3,7 @@
 ob_start();
 
 // Incluir conexión y validar ID
-include '../connect.php';
+include 'connect.php';
 
 // Validar y sanitizar el ID
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -15,7 +15,7 @@ if (!$id) {
 date_default_timezone_set('America/Lima');
 
 // Consulta preparada para seguridad
-$sql = "SELECT * FROM `equiposreparados` WHERE id = ?";
+$sql = "SELECT * FROM `registro` WHERE id = ?";
 $stmt = mysqli_prepare($connect, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
@@ -208,7 +208,7 @@ mysqli_stmt_close($stmt);
 $html = ob_get_clean();
 
 // Cargar DomPDF
-require_once '../pdf\dompdf\autoload.inc.php';
+require_once 'pdf\dompdf\autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
