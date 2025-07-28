@@ -264,6 +264,12 @@ background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w
     margin-bottom: 0.5rem;
 }
 
+.form-header h3{
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
 .form-header p{
     color: var(--secondary-color);
     font-size: 1.2rem;

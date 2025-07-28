@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container-login">
         <div class="container-side shapedividers_com-3746">
             <div class="container-side-text">
-                <h2> Sistema de Gestión de Fallas PC</h2>
+                <h2>Sistema de Gestión de Fallas PC</h2>
                 <div class="side-text">
                     <p>
                         Solución rápida y organizada para reportar y resolver problemas de computadoras.
@@ -111,65 +111,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <ul>
                         <li>✅ Registro sencillo de fallas de hardware y software.</li>
                         <li>✅ Seguimiento en tiempo real de solicitudes.</li>
-                        <li>✅ Respuesta ágil con técnicos asignados..</li>
+                        <li>✅ Respuesta ágil con técnicos asignados.</li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <?php if ($show_form === 'username'): ?>
-            <form method="post" class="form-container" id="form-username">
-        <div class="form-header">
-                <div class="logo-header">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
+            <form method="post" class="form-container" id="formUser" style="height: 100vh;">
+                <div class="form-header">
+                    <div class="logo-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>Verificación de Usuario</h3>
+                    <p>Agrega tu nombre de usuario.</p>
                 </div>
-            <h2>Recuperar</h2>
-            <p>Agrega tu nombre de usuario.</p>
-        </div>
-
                 <div class="form">
+
                     <?php if (!empty($error_usuario)): ?>
                         <div class="alert alert-danger"><?php echo $error_usuario; ?></div>
                     <?php endif; ?>
+
+
+                                <div class="error alert-danger" id="error-general"></div>
+
+
                     <div class="form-group">
                         <label>Nombre de Usuario</label>
-                        <input type="text" name="usuario" id="usuario" placeholder="Ingrese su nombre de usuario" 
+                        <input type="text" name="usuario" id="user" placeholder="Ingrese su nombre de usuario"
                             value="<?php echo htmlspecialchars($usuario); ?>" />
                     </div>
-                    
-                    
-                    <div class="hidden" >
-                        <label>Nombre de Usuario</label>
-                        
+
+                    <div class="form-group ">
+                        <span>¿No tienes una cuenta? <a class="link" href="registro.php">Regístrate Aquí</a></span>
                     </div>
 
-                    <div class="hidden" >
-                        <label>Nombre de Usuario</label>
-                        
+                    <div class="form-group">
+                        <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
                     </div>
 
-                    <div class="hidden" >
-                        <label>Nombre de Usuario</label>
-                        
-                    </div>
-
-                                  <div class="form-group ">
-                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
-            </div>
-                        
-            <button type="submit" name="submit_username" class="btn btn-primary">Enviar</button>
-                    </div>
+                    <button type="submit" name="submit_username" class="btn btn-primary">Enviar</button>
                 </div>
             </form>
         <?php elseif ($show_form === 'reset'): ?>
-            <form method="post" class="form-container" id="form-reset">
+            <form method="post" class="form-container" id="form">
                 <div class="form-header">
-                    <h2>Responder Pregunta de Seguridad</h2>
+                    <div class="logo-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3f37c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>Respuesta de Seguridad</h3>
+                    <p>Responde las preguntas de seguridad.</p>
                 </div>
                 <div class="form">
+                    <div class="error alert-danger" id="error-general"></div>
                     <?php if (!empty($error_general)): ?>
                         <div class="alert alert-danger"><?php echo $error_general; ?></div>
                     <?php endif; ?>
@@ -182,22 +182,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="form-group">
                         <label>Respuesta</label>
-                         <input type="password" name="respuesta" id="respuesta" placeholder="Ingrese la respuesta a la pregunta" />
+                        <input type="password" name="respuesta" id="p1" placeholder="Ingrese la respuesta a la pregunta" />
                     </div>
                     <div class="form-group">
                         <label>Nueva Contraseña</label>
-                        <input type="password" name="newpass" id="newpass" placeholder="Ingrese nueva contraseña" />
+                        <input type="password" name="newpass" id="pass" placeholder="Ingrese nueva contraseña" />
                     </div>
-            <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($usuario); ?>" />
-            <input type="hidden" name="security_question" value="<?php echo htmlspecialchars($security_question); ?>" />
-            <input type="hidden" name="security_answer" value="<?php echo htmlspecialchars($security_answer); ?>" />
-            <input type="hidden" name="idrol" value="<?php echo htmlspecialchars($idrol); ?>" />
-            
-                                      <div class="form-group ">
-                <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
-            </div>
-            
-            <button type="submit" name="submit_newpass" class="btn btn-primary">Actualizar Contraseña</button>
+                    <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($usuario); ?>" />
+                    <input type="hidden" name="security_question" value="<?php echo htmlspecialchars($security_question); ?>" />
+                    <input type="hidden" name="security_answer" value="<?php echo htmlspecialchars($security_answer); ?>" />
+                    <input type="hidden" name="idrol" value="<?php echo htmlspecialchars($idrol); ?>" />
+                    <div class="form-group">
+                        <span>¿Ya tienes una cuenta? <a class="link" href="index.php">Inicia Sesión</a></span>
+                    </div>
+                    <button type="submit" name="submit_newpass" class="btn btn-primary">Actualizar Contraseña</button>
                 </div>
             </form>
         <?php elseif ($show_form === 'success'): ?>
@@ -207,5 +205,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </script>
         <?php endif; ?>
     </div>
+
+
+    <script>
+    const form = document.getElementById('form');
+    const formUser = document.getElementById('formUser');
+    const user = document.getElementById('user');
+    const p1 = document.getElementById('p1');
+    const pass = document.getElementById('pass');
+    const errorGeneral = document.getElementById('error-general');
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            let messages = [];
+
+
+            if (p1 && !/^[a-zA-Z0-9]{4,16}$/.test(p1.value.trim())) {
+                messages.push('La respuesta debe tener entre 4 y 16 caracteres y solo puede contener letras y números.');
+            }
+            if (pass && !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass.value)) {
+                messages.push('La contraseña debe tener al menos 6 caracteres, contener al menos una letra y un número.');
+            }
+
+            if (messages.length > 0) {
+                e.preventDefault();
+                if (errorGeneral) {
+                    errorGeneral.innerText = messages[0];
+                    errorGeneral.style.display = 'block';
+
+                    setTimeout(() => {
+                        errorGeneral.style.display = 'none';
+                    }, 3000);
+                }
+            } else {
+                if (errorGeneral) {
+                    errorGeneral.style.display = 'none';
+                }
+            }
+        });
+    }
+    if (formUser) {
+        formUser.addEventListener('submit', (e) => {
+            let messages = [];
+
+
+                        if (user && !/^[a-zA-Z0-9]{4,16}$/.test(user.value.trim())) {
+                messages.push('El usuario debe tener entre 4 y 16 caracteres y solo puede contener letras y números.');
+            }
+            if (messages.length > 0) {
+                e.preventDefault();
+                if (errorGeneral) {
+                    errorGeneral.innerText = messages[0];
+                    errorGeneral.style.display = 'block';
+
+                    setTimeout(() => {
+                        errorGeneral.style.display = 'none';
+                    }, 3000);
+                }
+            } else {
+                if (errorGeneral) {
+                    errorGeneral.style.display = 'none';
+                }
+            }
+        });
+    }
+    </script>
 </body>
 </html>
