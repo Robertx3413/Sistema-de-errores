@@ -33,11 +33,46 @@ $rol = $row['idrol'];
                     </svg> Registro de Errores
                 </h1>
                 <div class="btn-group">
+            <!-- notificaciones -->
+           <button id="btnNotificaciones" class="btn btn-link" type="button" style="background:none; border:none; padding:0; cursor:pointer;">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+       class="icon-nav" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+       style="position: relative;">
+
+    <!-- Icono original -->
+    <path d="M13 12C13 11.4477 13.4477 11 14 11H19C19.5523 11 20 11.4477 20 12V19C20 19.5523 19.5523 20 19 20H14C13.4477 20 13 19.5523 13 19V12Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4 5C4 4.44772 4.44772 4 5 4H9C9.55228 4 10 4.44772 10 5V12C10 12.5523 9.55228 13 9 13H5C4.44772 13 4 12.5523 4 12V5Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4 17C4 16.4477 4.44772 16 5 16H9C9.55228 16 10 16.4477 10 17V19C10 19.5523 9.55228 20 9 20H5C4.44772 20 4 19.5523 4 19V17Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M13 5C13 4.44772 13.4477 4 14 4H19C19.5523 4 20 4.44772 20 5V7C20 7.55228 19.5523 8 19 8H14C13.4477 8 13 7.55228 13 7V5Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Badge en la esquina superior derecha -->
+    <circle cx="18" cy="7" r="8" fill="#e74c3c"/>
+     <?php
+                    // Query to count records in registro table
+                    $countQuery = "SELECT COUNT(*) as total FROM registro";
+                    $countResult = mysqli_query($connect, $countQuery);
+                    $countRow = mysqli_fetch_assoc($countResult);
+                    $totalRecords = $countRow['total'] ?? 0;
+                    ?>
+    <text x="18" y="8" text-anchor="middle" fill="#fff"
+          font-size="10" font-family="Arial, sans-serif" font-weight="bold">
+      <?= $totalRecords ?? 0 ?>
+    </text>
+  </svg>
+
+</button>
+            <!-- fin de notificaciones -->
                     <a href="formulario.php" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                         </svg> Agregar
                     </a>
+
+                    
                     
                 </div>
 
@@ -159,7 +194,7 @@ $rol = $row['idrol'];
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" class="icon-delete" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                         <path d="M6 7V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                      Eliminar
                 </button>
@@ -221,8 +256,6 @@ $rol = $row['idrol'];
 
                 
 
-             
-
 
 
             <?php endwhile; ?>
@@ -237,36 +270,43 @@ $rol = $row['idrol'];
             <?php endif; ?>
         </div>
 
-
-        
-        
-
-
     </div>
 
     <script>
-    const btnsModal = document.querySelectorAll(".btn-modal");
-    const modals = document.querySelectorAll(".modal");
+    // Select all buttons with class btn-modal inside table rows
+    const btnsModal = document.querySelectorAll("tbody tr .btn-modal");
+    // Exclude notifications modal from generic modals list
+    const modals = Array.from(document.querySelectorAll(".modal")).filter(modal => modal.id !== "modalNotificaciones");
     const btnsClose = document.querySelectorAll(".btn-close");
     const btnsOff = document.querySelectorAll(".btn-off");
 
 
-    
+
     btnsModal.forEach((btn, index) => {
         btn.addEventListener("click", function() {
-            modals[index].classList.add("show");
+            if (modals[index]) {
+                modals[index].classList.add("show");
+            }
         });
     });
 
-    btnsClose.forEach((btn, index) => {
+    btnsClose.forEach((btn) => {
         btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
+            // Find the closest modal parent and hide it
+            const modal = this.closest('.modal');
+            if (modal) {
+                modal.classList.remove("show");
+            }
         });
     });
 
-    btnsOff.forEach((btn, index) => {
+    btnsOff.forEach((btn) => {
         btn.addEventListener("click", function() {
-            modals[index].classList.remove("show");
+            // Find the closest modal parent and hide it
+            const modal = this.closest('.modal');
+            if (modal) {
+                modal.classList.remove("show");
+            }
         });
     });
 
@@ -279,6 +319,33 @@ $rol = $row['idrol'];
     });
 
     </script>
+
+<script>
+    // Notifications modal toggle
+    const btnNotificaciones = document.getElementById('btnNotificaciones');
+    const modalNotificaciones = document.getElementById('modalNotificaciones');
+    const closeNotificaciones = document.getElementById('closeNotificaciones');
+    const btnCerrarNotificaciones = modalNotificaciones.querySelector('.btn-off');
+
+    btnNotificaciones.addEventListener('click', () => {
+        modalNotificaciones.classList.add('show');
+    });
+
+    closeNotificaciones.addEventListener('click', () => {
+        modalNotificaciones.classList.remove('show');
+    });
+
+    btnCerrarNotificaciones.addEventListener('click', () => {
+        modalNotificaciones.classList.remove('show');
+    });
+
+    // Close modal when clicking outside content
+    window.addEventListener('click', (event) => {
+        if (event.target === modalNotificaciones) {
+            modalNotificaciones.classList.remove('show');
+        }
+    });
+</script>
 
 </body>
 </html>
