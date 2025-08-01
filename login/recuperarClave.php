@@ -2,8 +2,6 @@
 session_start();
 include "../connect.php";
 
-$error_usuario = '';
-$error_pass = '';
 $error_general = '';
 $show_form = 'username'; // 'username' or 'reset'
 $security_question = '';
@@ -14,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['submit_username'])) {
         // User submitted username to get security question and answer
         if (empty($_POST['usuario'])) {
-            $error_usuario = 'Por favor ingrese un nombre de usuario';
+            $error_general = 'Por favor ingrese un nombre de usuario';
         } else {
             $usuario = mysqli_real_escape_string($connect, trim($_POST['usuario']));
             $sql = "SELECT * FROM usuario WHERE usuario = ?";
@@ -29,18 +27,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $idrol = $row['idrol'];
                 $show_form = 'reset';
             } else {
-                $error_usuario = 'Usuario no encontrado';
+                $error_general = 'Usuario no encontrado';
             }
             mysqli_stmt_close($stmt);
         }
+
+
+        if (!empty($error_general)) {
+        echo "<script>
+            setTimeout(() => {
+                const errorGeneral = document.getElementById('error-general');
+                if (errorGeneral) {
+                    errorGeneral.style.display = 'none';
+                }
+            }, 4000);
+        </script>";
+    }
     } elseif (isset($_POST['submit_newpass'])) {
         // User submitted new password to update
         if (empty($_POST['usuario']) || empty($_POST['newpass']) || empty($_POST['respuesta'])) {
             if (empty($_POST['usuario'])) {
-                $error_usuario = 'Usuario no especificado';
+                $error_general = 'Usuario no especificado';
             }
             if (empty($_POST['newpass'])) {
-                $error_pass = 'Por favor ingrese una nueva contraseña';
+                $error_general = 'Por favor ingrese una nueva contraseña';
             }
             if (empty($_POST['respuesta'])) {
                 $error_general = 'Por favor ingrese la respuesta a la pregunta de seguridad';
@@ -85,8 +95,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $security_question = isset($_POST['security_question']) ? $_POST['security_question'] : '';
                 }
                 mysqli_stmt_close($stmt);
+
+
+
+                
             }
         }
+
+
+        if (!empty($error_general)) {
+        echo "<script>
+            setTimeout(() => {
+                const errorGeneral = document.getElementById('error-general');
+                if (errorGeneral) {
+                    errorGeneral.style.display = 'none';
+                }
+            }, 4000);
+        </script>";
+    }
     }
 }
 ?>
@@ -131,17 +157,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="form">
 
-                    <?php if (!empty($error_usuario)): ?>
-                        <div class="alert alert-danger"><?php echo $error_usuario; ?></div>
+                   <?php if (!empty($error_general)): ?>
+                        <div class="error alert alert-danger" id="error-general"><?php echo $error_general; ?></div>
                     <?php endif; ?>
 
-
-                                <div class="error alert-danger" id="error-general"></div>
-
+                    <div class="error alert-danger" id="error-general"></div>
 
                     <div class="form-group">
                         <label>Nombre de Usuario</label>
-                        <input type="text" name="usuario" id="user" placeholder="Ingrese su nombre de usuario"
+                        <input type="text" class="form-input" name="usuario" id="user" placeholder="Ingrese su nombre de usuario"
                             value="<?php echo htmlspecialchars($usuario); ?>" />
                     </div>
 
@@ -169,13 +193,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <p>Responde las preguntas de seguridad.</p>
                 </div>
                 <div class="form">
-                    <div class="error alert-danger" id="error-general"></div>
+                    
                     <?php if (!empty($error_general)): ?>
-                        <div class="alert alert-danger"><?php echo $error_general; ?></div>
+                        <div class="error alert alert-danger" id="error-general"><?php echo $error_general; ?></div>
                     <?php endif; ?>
-                    <?php if (!empty($error_pass)): ?>
-                        <div class="alert alert-danger"><?php echo $error_pass; ?></div>
-                    <?php endif; ?>
+
+                    <div class="error alert-danger" id="error-general"></div>
+
                     <div class="form-group">
                         <label><b>Pregunta de Seguridad del usuario</b></label>
                         <label class="form-control"><?php echo htmlspecialchars(strtoupper($security_question)); ?></label>
@@ -200,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php elseif ($show_form === 'success'): ?>
             <script>
-                alert("<?php echo $success_message; ?>");
+                echo("<?php echo $success_message; ?>");
                 window.location.href = "index.php";
             </script>
         <?php endif; ?>
@@ -269,6 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
     }
+
     </script>
 </body>
 </html>

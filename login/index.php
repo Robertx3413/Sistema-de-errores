@@ -3,23 +3,21 @@ session_start();
 include "../connect.php";
 
 // Variables para mensajes de error
-$error_usuario = '';
-$error_pass = '';
 $error_general = '';
 
 // Procesar formulario cuando se envía
 if (isset($_POST['registrar'])) {
     // Validar campos vacíos
     if (empty($_POST["usuario"])) {
-        $error_usuario = 'Por favor ingrese su usuario';
+        $error_general = 'Por favor ingrese su usuario';
     }
     
     if (empty($_POST["pass"])) {
-        $error_pass = 'Por favor ingrese su contraseña';
+        $error_general = 'Por favor ingrese su contraseña';
     }
     
     // Si no hay errores de campos vacíos, validar credenciales
-    if (empty($error_usuario) && empty($error_pass)) {
+    if (empty($error_general)) {
         $usuario = mysqli_real_escape_string($connect, trim($_POST["usuario"]));
         $pass = $_POST["pass"];
         
@@ -52,6 +50,7 @@ if (isset($_POST['registrar'])) {
                     exit();
                 } else {
                     $intentos_fallidos++;
+
                     if ($intentos_fallidos >= 3) {
                         // Bloquear usuario
                         $update_query = "UPDATE usuario SET estado = 'Inactivo', intentosfallidos = 0 WHERE usuario = ?";
@@ -69,16 +68,34 @@ if (isset($_POST['registrar'])) {
                         mysqli_stmt_execute($stmt_update);
                         mysqli_stmt_close($stmt_update);
 
-                        $error_general = 'Usuario o contraseña incorrectos';
+                        // Mensaje específico para el segundo intento fallido
+                        if ($intentos_fallidos == 2) {
+                            $error_general = 'Contraseña incorrecta, en el próximo intento el usuario será bloqueado';
+                        } else {
+                            $error_general = 'Contraseña incorrecta';
+                        }
                     }
                 }
             }
         } else {
-            $error_general = 'Usuario o contraseña incorrectos';
+            $error_general = 'Usuario no existe';
         }
         
         mysqli_stmt_close($stmt);
     }
+
+   
+    if (!empty($error_general)) {
+        echo "<script>
+            setTimeout(() => {
+                const errorGeneral = document.getElementById('error-general');
+                if (errorGeneral) {
+                    errorGeneral.style.display = 'none';
+                }
+            }, 4000);
+        </script>";
+    }
+    
 }
 ?>
 
@@ -87,15 +104,16 @@ if (isset($_POST['registrar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Moderno</title>
+    <title>Login - Sistema de Gestión de Fallas de PC</title>
     <link rel="stylesheet" href="../styles.css">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="container-login">
 
         <div class="container-side shapedividers_com-3746">
             <div class="container-side-text">
-                <h2> Sistema de Gestión de Fallas PC</h2>
+                <h2> Sistema de Gestión de Fallas de PC</h2>
                 <div class="side-text">
                     <p>
                         Solución rápida y organizada para reportar y resolver problemas de computadoras.
@@ -125,7 +143,7 @@ if (isset($_POST['registrar'])) {
 
         <div class="form">
                 <?php if(!empty($error_general)): ?>
-                    <div class=" alert alert-danger" id="error-general"><?php echo $error_general; ?></div>
+                    <div class="error alert alert-danger" id="error-general"><?php echo $error_general; ?></div>
                 <?php endif; ?>
             
 
@@ -135,19 +153,14 @@ if (isset($_POST['registrar'])) {
                 <label>Nombre de Usuario</label>
                 <input type="text" name="usuario" id="user" placeholder="Ingrese su usuario" 
                     value="<?php echo isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : ''; ?>"
-                    class="<?php echo !empty($error_usuario) ? 'error' : ''; ?>">
-                <?php if(!empty($error_usuario)): ?>
-                    <span class="error-message"><?php echo $error_usuario; ?></span>
-                <?php endif; ?>
+                    class="form-input">
             </div>
             
             <div class="form-group">
                 <label>Contraseña</label>
                 <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"
-                    class="<?php echo !empty($error_pass) ? 'error' : ''; ?>">
-                <?php if(!empty($error_pass)): ?>
-                    <span class="error-message"><?php echo $error_pass; ?></span>
-                <?php endif; ?>
+                    class="form-input">
+
             </div>
 
             <div class="form-group ">
@@ -161,12 +174,44 @@ if (isset($_POST['registrar'])) {
             <button type="submit" name="registrar" class="btn btn-primary ">Ingresar</button>
         </form>
         </div>
-    
-        <!-- Footer con información de creadores -->
         
     </div>
 </body>
 
-<script src="../validacion.js"></script>
+<script>
+    
+
+    const user = document.getElementById('user');
+    const pass = document.getElementById('pass');
+    const form = document.querySelector('form');
+    const errorGeneral = document.getElementById('error-general');
+
+    form.addEventListener('submit', (e) => {
+        let messages = [];
+
+        if (!/^[a-zA-Z0-9]{4,16}$/.test(user.value.trim())) {
+            messages.push('El usuario debe tener entre 4 y 16 caracteres y solo puede contener letras y números.');
+        }
+        if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass.value)) {
+            messages.push('La contraseña debe tener al menos 6 caracteres, contener al menos una letra y un número.');
+        }
+
+        if (messages.length > 0) {
+            e.preventDefault();
+            errorGeneral.innerText = messages[0];
+            errorGeneral.style.display = 'block';
+
+
+            setTimeout(() => {
+                errorGeneral.style.display = 'none';
+            }, 4000);
+        } else {
+            errorGeneral.style.display = 'none';
+        }
+    });
+
+
+    
+</script>
 </html>
 
