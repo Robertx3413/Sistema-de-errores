@@ -87,10 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mysqli_stmt_bind_param($stmt, "ss", $hashed_password, $usuario);
                 }
                 if (mysqli_stmt_execute($stmt)) {
-                    $success_message = 'Contraseña actualizada correctamente. Puede iniciar sesión con su nueva contraseña.';
                     $show_form = 'success';
                 } else {
-                    $error_general = 'Error al actualizar la contraseña. Inténtelo de nuevo.';
                     $show_form = 'reset';
                     $security_question = isset($_POST['security_question']) ? $_POST['security_question'] : '';
                 }
@@ -224,7 +222,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         <?php elseif ($show_form === 'success'): ?>
             <script>
-                echo("<?php echo $success_message; ?>");
                 window.location.href = "index.php";
             </script>
         <?php endif; ?>
